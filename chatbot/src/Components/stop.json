@@ -1,0 +1,70 @@
+{
+    "data": {
+        "question": {
+            "type": "single",
+            "text": "Do you have a sore throat?",
+            "items": [
+                {
+                    "id": "s_20",
+                    "name": "Pharyngeal pain",
+                    "choices": [
+                        {
+                            "id": "present",
+                            "label": "Yes"
+                        },
+                        {
+                            "id": "absent",
+                            "label": "No"
+                        },
+                        {
+                            "id": "unknown",
+                            "label": "Don't know"
+                        }
+                    ]
+                }
+            ],
+            "extras": {}
+        },
+        "conditions": [
+            {
+                "id": "c_87",
+                "name": "Common cold",
+                "common_name": "Common cold",
+                "probability": 0.0171
+            },
+            {
+                "id": "c_50",
+                "name": "Hypertension",
+                "common_name": "Hypertension",
+                "probability": 0.0165
+            },
+            {
+                "id": "c_672",
+                "name": "Concussion",
+                "common_name": "Concussion",
+                "probability": 0.0156
+            },
+            {
+                "id": "c_899",
+                "name": "Cervical acceleration-deceleration syndrome",
+                "common_name": "Whiplash",
+                "probability": 0.0129
+            },
+            {
+                "id": "c_117",
+                "name": "Anxiety disorder",
+                "common_name": "Anxiety disorder",
+                "probability": 0.0128
+            },
+            {
+                "id": "c_298",
+                "name": "Dehydration",
+                "common_name": "Dehydration",
+                "probability": 0.012
+            }
+        ],
+        "extras": {},
+        "should_stop": true
+    },
+"status": 200
+}

@@ -1,0 +1,255 @@
+<% include ./header.ejs %> 
+<% include ./navbar.ejs %> 
+<% include ./sidebar.ejs %> 
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Duc Meal Claim List Details
+        <small> </small>
+      </h1>
+      
+    </section>
+  
+    <!-- Main content -->
+    <section class="content">
+    <!-- <a href="/hospitaldash/illness_add" class="btn btn-info" role="button">Add</a><br></br> -->
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th>User Name</th>
+                  <th>Date Of Birth</th>
+                  <th>Phone Number</th>
+                  <th>DUC.ID</th>
+                  <th>DUC.ID Status</th>
+                  <th>View All DUC ID Details</th>
+                 
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+                <tr>
+                  <td><%= parseInt(i)+1%></td>
+                  <td><%= response[i].username ? response[i].username : ''%></td>
+                 
+                  <td><%= response[i].dob? response[i].dob:''%></td>
+                  <td><%= response[i].phone_code + " " +response[i].phone_number %></td>
+                  <td><%= response[i].policy_number? response[i].policy_number:''%></td>
+                  <td><span rel="<%=response[i].id%>" class="label <%= (response[i].policy_status == '0') ? 'label-success ' : 'label-danger '%>" status="<%= response[i].policy_status%>">  <%= (response[i].policy_status == 1) ? 'Inactive' : 'Active'%></span></td>
+                  <td>
+                   <!-- <a href="/hospitaldash/edit?id=<%= response[i].id %>" class="btn btn-primary a-btn-slide-text">
+                      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                      <span><strong>Edit</strong></span>            
+                  </a> -->
+                  <a href="/restaurant/viewAll?claimId=<%= response[i].claimId %>" class="btn btn-primary a-btn-slide-text">
+                      <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                      <span><strong>View All Details</strong></span>   
+                  </a>
+                <!--   <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>" value="<%= response[i].status %>" <%= (response[i].status)?'checked':'' %> table="user_illnesses" >Delete</button> -->
+                  
+                 </td>
+                 <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                  
+                 
+                </tr>
+                
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              <div>
+                  <p></p>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="modal fade" id="exampleModalss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true" claim_id="">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Claim</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <form>
+              <div class="modal-body">
+                  <input type="text" class="form-control" name="claim" id="claim" placeholder="Enter Otp to verify">
+                  <input type="hidden" id="modalVal" value="<%response.id%>" name="mdel" required>
+                  <span style="color:red;display:none;" id="otpmsg">Invalid Otp</span>
+              </div>
+              <div class="modal-footer">
+
+                  <button type="button" class="btn btn-primary submitClaim">Claim Now</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModalsss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+               
+              <b><p>Varify Claim Amount</p></b>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <form enctype="multipart/form-data">
+              <div class="modal-body">
+                  <b><p>Amount</p></b>
+                  <input type="text" class="form-control" name="amount" id="amount" placeholder="Enter Claimed Amount">
+                  <input type="hidden" id="modalVals" value="<%response.id%>" name="mdels" required>
+                  <b><p>Uplaod Image</p></b>
+                  <input type="file" class="form-control" name="file" id="file" placeholder="Enter Claimed Amount">
+              </div>
+              <div class="modal-footer">
+
+                  <button type="button" class="btn btn-primary submitdetails">Varify</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+/////////////////////
+
+  
+</div>
+
+<% include ./footer.ejs %> 
+<script>
+  $(document).on('click', '#loadModal', function () {
+     
+      $("#claim").val('');
+      var id = $(this).attr('rel');
+      var calimid= $(this).attr('claimId');
+      $("#exampleModalss").attr("claim_id",calimid);
+
+      $("#modalVal").val(id);
+      //$("#modalVal").val(claimId);
+      $('#exampleModalss').modal({ show: true });
+  });
+  $(document).on('click', '.submitClaim', function () {
+      let _claim = $("#claim").val();
+      let claim_id = $("#exampleModalss").attr("claim_id");
+      
+      if (_claim == '') {
+          alert('please anter otp');
+          return false;
+      }
+      let _mdel = $("#modalVal").val();
+      $.ajax({
+          type: "POST",
+          url: "/hospitaldash/claimnow",
+          data: { id: _mdel, claim: _claim ,claim_id:claim_id},
+          success: function (data) {
+              let dtas = JSON.parse(data);
+              if (dtas == "2") {
+                  $("#otpmsg").show();
+              } else {
+                  // $("#otpmsg").hide();
+                  $('#exampleModalss').modal({ show: false });
+                  // $('#exampleModalss').modal('hide').
+                  swal("Proof! Claim Successfull!", {
+                      icon: "success",
+                  });
+                  setTimeout(function () { location.reload(1); }, 1000);
+              }
+          }, error(error) {
+              console.error(error);
+          }
+      });
+  });
+</script>
+////////////////varify amount Query//////////////////////////////
+<script>
+  $(document).on('click', '#loadModals', function () {
+      $("#amount").val('');
+      var id = $(this).attr('rel');
+      $("#modalVals").val(id);
+      $('#exampleModalsss').modal({ show: true });
+  });
+  $(document).on('click', '.submitdetails', function () {
+      let _amount = $("#amount").val();
+      let mdels = $("#modalVals").val();
+   //   let _image = $("#image").val();
+      /* var form = $('_image')[0]; // You need to use standard javascript object here
+      var formData = new FormData(form); */
+      var formData = new FormData();
+      formData.append('mdels', mdels);
+      formData.append('amount', _amount);
+      // Attach file
+      formData.append('file', $('#file')[0].files[0]); 
+  
+      if (_amount == '') 
+      {
+          alert(' Please Enter Amount');
+          return false;
+      }
+      
+      $.ajax({
+          type: "POST",
+          
+          url: "/hospitaldash/varify_amount",
+          data: formData,
+          contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+          processData: false, 
+          success: function (data) {
+           
+            //  let dtas = JSON.parse(data);
+              if (data == "1") {
+                $('#exampleModalsss').modal({ show: false });
+                  // $('#exampleModalss').modal('hide').
+                  swal("Claimed Amount Successfully Sent!", {
+                      icon: "success",
+                  });
+                  setTimeout(function () { location.reload(1); }, 1000);
+              } else {
+                swal("Please Try Again !", {
+                      icon: "success",
+                  });
+                  setTimeout(function () { location.reload(1); }, 1000);
+               
+              }
+          }, error(error) {
+              console.error(error);
+          }
+      });
+  });
+</script>

@@ -1,0 +1,59 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Sponsors Login</title>
+    
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+            
+        <div class="row">
+            <% if(msg!=''){
+                
+                %>
+                <div class="alert alert-success col-xs-6" id="msg" style="margin-left: 280px;">
+                  <h5> <%=msg%></h5>
+                </div>
+              <%}%>
+            <div class="col-md-4 col-md-offset-4">
+
+                <div class="login-panel panel panel-default">
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Sponsors  Login </strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="/sponsers/login">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="" required> 
+                                </div>
+                                <button type="submit" class="btn btn-warning btn-lg">Login</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    setTimeout(() => {
+        $("#msg").fadeOut('slow');
+       },3000);
+       });
+</script>

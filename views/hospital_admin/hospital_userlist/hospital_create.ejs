@@ -1,0 +1,135 @@
+<% include ./header.ejs %> 
+<div class="wrapper">
+<% include ./navbar.ejs %> 
+<% include ./sidebar.ejs %> 
+  <div class="content-wrapper">
+    
+
+
+    <!-- Main content -->
+    
+    
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}%>
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><%= response.username ? 'Edit' : 'Create'  %> <b><%= response.username ? response.username: 'New User '  %></b></h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/hospitaldash/save">
+              <div class="box-body">
+                  <% if(response.image){ %>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Image</label>
+                      <div ><img style="width:200px; height: 150px;" id="output" src="/images/users/<%= response.image%>"></div>
+                    </div>
+                    <% } %>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Username</label>
+                  <input type="text" class="form-control" id="exampleInputfirstname"  name="username"placeholder="Enter Username" value="<%= response.username ? response.username : ''  %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Parent Id</label>
+                  <input type="text" class="form-control" id="exampleInputfirstname"  name="parent_id"placeholder="Enter Parent ID  " value="<%= response.is_parent ? response.is_parent : ''  %>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Address</label>
+                  <input type="textarea" class="form-control" id="exampleInputlastname" name="address" placeholder="address" required value="<%= response.address ? response.address : ''  %>">
+                </div>
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">City</label>
+                  <input type="text" class="form-control" id="exampleInputlastname" name="city" placeholder="city" required value="<%= response.city ? response.city : ''  %>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">State</label>
+                  <input type="text" class="form-control" id="exampleInputlastname" name="state" placeholder="state" required value="<%= response.state ? response.state : ''  %>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">DOB</label>
+                  <input type="date" max="9999-12-31" class="form-control" id="exampleInputlastname" name="dob" placeholder="Date of Birth" required value="<%= response.dob ? response.dob : ''  %>">
+                </div>
+                
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Gender</label>
+                   <select class="form-control id="exampleInputlastname" name="gender">
+                        <option value="Please Select">Please Select</option>
+                        <option value="1" <% if(response.gender ==1){%>selected<%}%>>Male</option>
+                        <option value="2" <% if(response.gender ==2){%>selected<%}%>>Female</option>
+                        <option value="3" <% if(response.gender ==3){%>selected<%}%>>Other</option>
+                        
+                  </select>
+                </div>
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">Blood Group</label>
+                   <select class="form-control id="exampleInputlastname" name="blood_group">
+                        <option value="Please Select">Please Select</option>
+                        <option value="A+" <% if(response.blood_group =="A"){%> selected <%}%> >A+</option>
+                        <option value="A-" <% if(response.blood_group =="A+"){%> selected <%}%>>A-</option>
+                        <option value="B+" <% if(response.blood_group =="B+"){%> selected <%}%>>B+</option>
+                        <option value="B-" <% if(response.blood_group =="B-"){%> selected <%}%>>B-</option>
+                        <option value="AB+" <% if(response.blood_group =="AB+"){%> selected <%}%>>AB+</option>
+                        <option value="AB-" <% if(response.blood_group =="AB-"){%> selected <%}%>>AB-</option>
+                        <option value="O+" <% if(response.blood_group =="O+"){%> selected <%}%>>O+</option>
+                        <option value="O-" <% if(response.blood_group =="O-"){%> selected <%}%>>O-</option>
+                        
+                        
+                  </select>
+                </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">OTP</label>
+                  <input type="text" class="form-control" id="exampleInputlastname" name="otp"  maxlength ="6" placeholder="Enter your otp here.." required value="">
+                </div>
+
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control" id="check_email" name="email" placeholder="Enter email" required value="<%= response.email ? response.email : ''  %>" <% if(response.email){%>readonly <%}%>>
+                </div>
+                <% if(!response.password && !response.email){ %>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Password</label>
+                  <input type="password" class="form-control" id="check_email" name="password" placeholder="Enter password" required value="<%= response.password ? response.password : ''  %>" >
+                </div>
+                <% }%>
+                
+                
+                <img id="output" style="width:20px;height:auto;max-height:20px;">
+                <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                <div class="form-group">
+                  <label for="exampleInputFile"> Upload Image</label>
+                  <input type="file" onchange="loadFile(event)" id="exampleInputFile" name="file" accept="image/*" <% if(!response.image){ %> required <% } %>>  
+                  
+                </div>
+                <button type="submit" class="btn btn-info " onclick="goBack()">Back</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+              <!-- /.box-body -->
+
+              
+            </form>
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">
+          <img id="output" style="width:300px;height:auto;max-height:500px;">
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<% include ./footer.ejs %> 
+
+

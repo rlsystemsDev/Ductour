@@ -1,0 +1,212 @@
+<% include ./header.ejs %>
+<div class="wrapper">
+  <% include ./navbar.ejs %>
+  <% include ./sidebar.ejs %>
+
+  <div class="content-wrapper">
+   
+    <section class="content-header">
+      <h1>
+          <button type="" class="btn btn-info pull-right " onclick="goBack()">Back</button>
+          View Policy Details
+        <small> </small>
+      </h1>
+    </section>
+    <section class="content">
+
+      <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong>
+        <%= msg %>
+      </div>
+      <%}%>
+     
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            
+              <div id="editor"></div>
+              <button class="buttons">Export to CSV</button>
+              <button id="btnExport">Export to Excel</button>
+                <button  href="#" id="cmd" class="dt-button buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF DOWNLOAD</span></button>
+            <div class="box-body csv_download" id="content2">
+              <table id="example1" class="table table-bordered table-hover csv_table">
+                 
+                <tbody>
+                   
+                  <tr>
+                    <th>User Name</th>
+                    <td><%= response[0].username ? response[0].username : ''  %></td>
+                  </tr>
+                  <tr>
+                    <th>Sponser Name </th>
+                    <td><%= response[0].sponse_name ? response[0].sponse_name : ''  %></td>
+                  </tr>
+                 
+                    <th>DUC. Id </th>
+                    <td><%= response[0].policy_number ? response[0].policy_number : ''  %></td>
+                  </tr>
+                  <tr>
+                    <th>Hospital Name </th>
+                    <td><%= response[0].hospital_name ? response[0].hospital_name : ''  %></td>
+                  </tr>
+                  <tr>
+                    <th>Policy Expiry Date </th>
+                    <%
+                    let times=response[0].expiry_date;
+                    var current_date=new Date(times);
+                var ExpiryDate = new Date(times*1000);
+                var today = new Date(ExpiryDate);
+                var dd = today.getDate();
+                if(dd < 10) {
+                    dd = '0'+dd;
+                }
+                var mm = today.getMonth()+1; 
+                if(mm < 10) {
+                    mm = '0'+mm;
+                }
+                var yyyy = today.getFullYear();
+                var todaydate = dd + '-' + mm + '-' + yyyy;
+              
+                    %>
+                   <td><%= todaydate %></td>   
+                      
+                  </tr>
+                  <tr><th>Total Treatment Covered</th>
+                    <td><%=ramaining[0].total%></td>
+                  </tr>
+                  <tr><th>Used Treatment</th>
+                    <td><%=ramaining[0].used%></td>
+                  </tr>
+                  
+                  <tr>
+                    <th>Treatment Taken</th>
+                    <%  
+                            let alltreatment= response.map(response=>response.illness_name);
+                            for (let i in alltreatment) {
+                              %>
+          
+                             <td><%= alltreatment[i]  %></td>
+                              <%}%>  
+                  </tr>
+                  
+                </tbody>
+
+              </table>
+              <div>
+                
+              </div> </div> <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+</div>
+
+<% include ./footer.ejs %>
+
+
+  
+</div>
+
+  
+</div>
+
+  </div>
+
+<script>
+  function download_csv(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV FILE
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // We have to create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Make sure that the link is not displayed
+    downloadLink.style.display = "none";
+
+    // Add the link to your DOM
+    document.body.appendChild(downloadLink);
+
+    // Lanzamos
+    downloadLink.click();
+}
+
+function export_table_to_csv(html, filename) {
+	var csv = [];
+	var rows = document.querySelectorAll("table tr");
+	
+    for (var i = 0; i < rows.length; i++) {
+		var row = [], cols = rows[i].querySelectorAll("td, th");
+		
+        for (var j = 0; j < cols.length; j++) 
+            row.push(cols[j].innerText);
+        
+		csv.push(row.join(","));		
+	}
+
+    // Download CSV
+    download_csv(csv.join("\n"), filename);
+}
+
+document.querySelector(".buttons").addEventListener("click", function () {
+    var html = document.querySelector("table").outerHTML;
+	export_table_to_csv(html, "UserDatatable.csv");
+});
+</script>
+
+<script src ="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.js"></script>
+<script>
+  $(document).ready(function(){ 
+var doc = new jsPDF();
+// We'll make our own renderer to skip this editor
+var specialElementHandlers = {
+	'#editor': function(element, renderer){
+		return true;
+	}
+};
+
+    $('#cmd').click(function () {
+     
+        doc.fromHTML($('#content2').get(0), 15, 15, {
+	'width': 170, 
+	'elementHandlers': specialElementHandlers
+});
+        doc.save('UserDetail.pdf');
+    });
+});
+</script>
+<script>
+    function ExportToExcel() {
+    var contents = $(".csv_download").html();
+    window.open('data:application/vnd.ms-excel,' + encodeURIComponent(contents));
+  }
+  $("#btnExport").click(function(e) {
+    let file = new Blob([$('.csv_download').html()], {type:"application/vnd.ms-excel"});
+  let url = URL.createObjectURL(file);
+  let a = $("<a />", {
+    href: url,
+    download: "UserDetail.xls"}).appendTo("body").get(0).click();
+    e.preventDefault();
+  });
+  </script>

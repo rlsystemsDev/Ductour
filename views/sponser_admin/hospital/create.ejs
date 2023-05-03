@@ -1,0 +1,187 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+  <div class="content-wrapper">
+
+    <style>
+      ul.dropdown-menu.inner.selectpicker {
+    max-height: 115px !important;
+    overflow-y: auto;
+    min-height: 82px;
+    position: relative;
+  }
+
+  .dropdown-menu .glyphicon.glyphicon-ok.check-mark {
+    display: none;
+  }
+</style>
+
+    <!-- Main content -->
+
+    <section class="content">
+      <% if(msg!=''){%>
+      <div class="alert alert-error col-xs-6" id="msg">
+        <strong></strong>
+        <%= msg %>
+      </div>
+      <%}%>
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+
+              <h3 class="box-title">
+                <%= response.username ? 'Edit' : 'Create'  %> <b>
+                  <%= response.username ? response.username : 'new'  %></b></h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/sponsers/save">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" class="form-control" id="exampleInputfirstname" name="name" placeholder="Enter Hospital Name"
+                    value="<%= response.username ? response.username : ''  %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email </label>
+                  <input type="email" class="form-control" id="check_email" name="email" placeholder="Enter  Hospital email"
+                    required value="<%= response.email ? response.email : ''  %>" <% if(response.email){%>readonly
+                  <%}%>>
+                </div>
+                <% if(!response.password){ %>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Password</label>
+                  <input type="password" class="form-control" id="exampleInputpassword" name="password" placeholder="Enter password"
+                    value="">
+                </div>
+                <% } %>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Location </label>
+                  <input type="text" class="form-control" id="check_locations" name="location" placeholder="Enter  Hospital Location"
+                    required value="<%= response.location ? response.location : ''  %>">
+                    <input type="hidden" class="form-control" id="pac-lat" name="lat" placeholder=""
+                    required value="">
+                    <input type="hidden" class="form-control" id="pac-lang" name="long" placeholder=""
+                    required value="">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Policy Number:</label><br>
+                  <label for="exampleInputEmail1"> From</label>
+                  <input type="text" class="form-control" id="minvalu" name="policy_min" onkeypress="javascript:return isNumber(event)"
+                    placeholder="Enter Start Policy Alloted" value="<%= response.policy_min ? response.policy_min : '' %>"
+                    required>
+                  
+
+                  <% if(Object.keys(maxpolicy[0]).length>1){%>
+                  <span style="color:red;" id="msgss">Policy must be greater
+                    <%=maxpolicy[0].policy_min%> then and less then
+                    <%=maxpolicy[0].policy_max%>
+                    <%}else{%>
+                    <span style="color:red;" id="msgss">Policy must be greater then
+                      <%=maxpolicy[0].max%>
+                      <%}%>
+                    </span>
+                    <br /> <label for="exampleInputEmail1"> Up to</label>
+                    <input type="text" class="form-control" id="exampleInputfirstname" onkeypress="javascript:return isNumber(event)"
+                      name="policy_max" placeholder="Enter Max Policy Alloted" value="<%= response.policy_max ? response.policy_max : '' %>"
+                      required>
+                </div>
+                <div class="form-group">
+                  <label>Select Illnesses</label>
+                  <div class="row-fluid ua">
+                    <select class="selectpicker" data-show-subtext="true" data-live-search="true" name="illname"
+                      multiple>
+                      <% if(sponsers_illness && sponsers_illness!=''){
+                                            for(let i in sponsers_illness){
+                                              
+                                          %>
+                      <option name="illname" value="<%= sponsers_illness[i].id%>" <% if(response && response.illnessIds
+                        && response.illnessIds!='' ){ for(let j in response.illnessIds){ if(response.illnessIds[j]==sponsers_illness[i].id){%>selected
+                        <%}
+                      }
+                    }%>>
+                        <%= sponsers_illness[i].name ? sponsers_illness[i].name :''%>
+                      </option>
+                      <%}
+                                          }%>
+                    </select>
+                  </div>
+                </div>
+
+                <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                <button class="btn btn-info " onclick="goBack()">Back</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+              <!-- /.box-body -->
+
+
+            </form>
+          </div>
+
+
+        </div>
+        <div class="=" col-md-4">
+          <img id="output" style="width:300px;height:auto;max-height:500px;">
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+
+</div>
+<% include ../footer.ejs %>
+<script>
+    function initAutocomplete() {
+          // Create the autocomplete object, restricting the search to geographical
+          // location types.
+          autocomplete = new google.maps.places.Autocomplete(
+                  /** @type {!HTMLInputElement} */(document.getElementById('check_locations')),
+                  {types: ['geocode']});
+  
+          
+  
+          // When the user selects an address from the dropdown, populate the address
+          // fields in the form.
+          autocomplete.addListener('place_changed', fillInAddress);
+      }
+  
+      function fillInAddress() {
+          // Get the place details from the autocomplete object.
+          var place = autocomplete.getPlace();
+           
+          $("#pac-lat").val(place.geometry.location.lat());
+          $("#pac-lang").val(place.geometry.location.lng());
+  
+         
+          for (var component in componentForm) {
+              document.getElementById(component).value = '';
+              document.getElementById(component).disabled = false;
+          }
+          // console.log(component);
+          // Get each component of the address from the place details
+          // and fill the corresponding field on the form.
+          for (var i = 0; i < place.address_components.length; i++) {
+              var addressType = place.address_components[i].types[0];
+              if (componentForm[addressType]) {
+                  var val = place.address_components[i][componentForm[addressType]];
+                  document.getElementById(addressType).value = val;
+              }
+          }
+  
+          $("#pac-lat").val(place.geometry.location.lat());
+          $("#pac-lang").val(place.geometry.location.lng());
+      }
+  
+  </script>
+  
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUdXAPh9pzLfcW4ITFNitZ5ytAIHPcb54&libraries=places&callback=initAutocomplete" async defer></script>
+  
+  
+  

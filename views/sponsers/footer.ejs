@@ -1,0 +1,245 @@
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Change Password</h4>
+        </div>
+        <div class="modal-body">
+            <form role="form" method="POST" id="password_chnage" action="/admin/change_password">
+              <div class="box-body">
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Old password</label>
+                  <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Old Password" required value="">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">New Password</label>
+                  <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password" required value="">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required value="">
+                  </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="myModals" class="modals">
+      <span class="close">&times;</span>
+      <img class="modal-contents" id="img01">
+      <div id="caption"></div>
+    </div>
+
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!--<script src="../bower_components/jquery/dist/jquery.min.js"></script>-->
+<!-- jQuery UI 1.11.4 -->
+<script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- Morris.js charts -->
+<script src="../bower_components/raphael/raphael.min.js"></script>
+<script src="../bower_components/morris.js/morris.min.js"></script>
+<!-- Sparkline -->
+<script src="../bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+<!-- jvectormap -->
+<script src="../plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="../plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="../bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- Slimscroll -->
+<script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="../dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+
+
+$(document).ready(function(){
+  $(document.body).on('change','.change_status',function(){
+    let _this=$(this);
+    let _id= _this.attr('rel');
+    let status = (_this.val()==1)?0:1;
+    _this.val(status);
+     let table = _this.attr('table'); 
+
+     $.ajax({
+            type: "POST",
+            url: "/users/update_status",
+            data: { id: _id, status: status,table:table },
+            success: function(data) {
+                console.log("yes done ");
+            },error(error){
+              console.error(error);
+            }
+          });
+  });
+
+  $(document.body).on('click','.delete_cat',function(){
+    let _this=$(this);
+    let _id= _this.attr('rel');
+    let table = _this.attr('table'); 
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this data!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((data) => {
+      if (data) {
+        $.ajax({
+            type: "POST",
+            url: "/users/delete_data",
+            data: { id: _id, table:table },
+            success: function(data) {
+              console.log(data);
+                console.log("yes done ");
+                _this.parents('tr').remove();
+                   swal("Poof! Your data has been deleted!", {
+                    icon: "success",
+                  });
+                  setTimeout(function () { location.reload(1); }, 1000);
+
+            },error(error){
+              console.error(error);
+            }
+          });
+     
+      }
+    });
+
+
+     
+  });
+});
+</script>
+<script>
+    $(document).ready(function(){
+      var old_password='';
+      $('#old_password').on('blur',function(){
+        old_password = $('#old_password').val();
+        if(old_password){
+          $.ajax({
+              type: "POST",
+              url: "/admin/check_admin_password",
+              data: { old_password: old_password },
+              success: function(data) {
+                if(data.message=='error'){
+                  alert('invalid old password');
+                  return false;
+                }
+              },error(error){
+                console.error(error);
+              }
+            });
+      
+        }
+      });
+          $('#password_chnage').submit(function(){
+            var new_password = $('#new_password').val();
+            var confirm_password = $('#confirm_password').val();
+            console.log(new_password);
+            console.log(confirm_password);
+            if(new_password != confirm_password){
+              alert('password and confirm password is not match!');
+              return false;
+            }
+          });
+
+          $('#confirm_password').on('blur', function(){
+            var new_password = $('#new_password').val();
+            var confirm_password = $('#confirm_password').val();
+            if(new_password != confirm_password){
+              alert('password and confirm password is not match!');
+              return false;
+            }
+          });
+       setTimeout(() => {
+        $("#msg").fadeOut('slow');
+       },3000);
+        
+       
+    });
+
+    $('.myImg').on('click', function() {
+
+      console.log($(this).attr('src'));
+
+    });
+
+    function image (img){
+      let src =  this.src;
+      console.log(this);
+
+      
+    }
+    </script>
+<!-- <script>
+    // Get the modal
+    var modal = document.getElementById('myModals');
+    
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById('myImg');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() { 
+        modal.style.display = "none";
+    }
+    </script> -->
+</body>
+</html>

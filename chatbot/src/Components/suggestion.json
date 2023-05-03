@@ -1,0 +1,30 @@
+{
+    "data": [
+        {
+            "id": "s_119",
+            "name": "Lethargy",
+            "common_name": "Feeling weak and tired"
+        },
+        {
+            "id": "s_156",
+            "name": "Nausea",
+            "common_name": "Feeling sick"
+        },
+        {
+            "id": "s_13",
+            "name": "Abdominal pain",
+            "common_name": "Abdominal pain"
+        },
+        {
+            "id": "s_81",
+            "name": "Chills",
+            "common_name": "Chills"
+        },
+        {
+            "id": "s_21",
+            "name": "Headache",
+            "common_name": "Headache"
+        }
+    ],
+    "status": 200
+}

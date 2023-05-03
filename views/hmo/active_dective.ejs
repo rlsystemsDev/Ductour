@@ -1,0 +1,94 @@
+app.route('/update_status').post(hmo.update_status);
+
+
+
+//in controller//
+
+update_status(req,res){
+    try{
+       //console.log(req.body.id,req.body.status);return false;
+       hmo.updateStatus(req.body,function(result){
+        
+           if(result!=''){
+                 return res.json('1');
+           }else{
+                 return res.json('0');
+           }
+       })
+    }catch(error){
+        throw error;
+    }
+}
+
+//in model//
+
+async updateStatus(data,callback){
+       try{
+        console.log(data,'data');
+        const[row]= await db.db_connect.execute('update hmo_login set status=? where id=?',[data.status,data.id]);
+      
+       callback(row);
+       }catch(e){
+           throw e;
+       }
+    }
+
+
+//ajax//
+<script type="text/javascript">
+  $(document.body).on('click','.dan',function(){
+
+  / console.log("here");return false; /
+  let _this=$(this);
+  let id= _this.attr('rel');
+  / console.log(id);return false; /
+   let status = (_this.attr('status')==1)?0:1;
+  //let status = (_this.attr('status')==1)?0:1;
+  _this.attr('status',status);
+  console.log(status);
+  //let table = _this.attr('table'); 
+  _this.val(status);
+  $.ajax({
+  type: "POST",
+  url: "/update_status",
+  data: { id: id, status: status },
+  success: function(data) {
+  console.log("status -----",status);
+  
+  if (status ==0)
+  {
+   console.log("status");
+  _this.text("Inactive");
+  _this.css('background-color', '#F44336');
+  _this.css('border-color', '#F44336');
+  $(this).removeClass("label label-sucsess dan");
+  $(this).addClass("label label-danger dan");
+   $(this).attr( 'class','label label-success dan');
+  // _this.css("label-danger");
+  
+  }
+  else {
+    console.log("statusnot found");
+  _this.text("Active");
+  _this.css('background-color', '#4CAF50');
+  _this.css('border-color', '#4CAF50');
+  $(this).removeClass("label label-danger dan");
+  $(this).addClass("label label-success dan");
+  $(this).attr( 'class','label label-danger dan');
+  
+  //_this.css("label-success");
+  
+  //	_this.dan("label-success dan");
+  } 
+  
+  },error(error){
+
+  console.error(error);
+  }
+  });
+  });
+  </script>
+
+//table td
+
+ <td><span rel="<%=response[i].id%>" class="label <%= (response[i].status == '0') ? 'label-danger dan' : 'label-success dan'%>" status="<%= response[i].status%>">  <%= (response[i].status == 0) ? 'Inactive' : 'Active'%></span></td>

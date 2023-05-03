@@ -1,0 +1,98 @@
+<% include ./header.ejs %> 
+<% include ./navbar.ejs %> 
+<% include ./sidebar.ejs %>
+
+ 
+  <!-- Left side column. contains the logo and sidebar -->
+ 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+<% include ./sidebar.ejs %>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+       Illness 
+        <small> </small>
+      </h1>
+      
+    </section> <br>
+    
+    <!-- Main content -->
+    <section class="content">
+    <a href="/sponsers/create" class="btn btn-info" role="button">Add Illness</a><br></br>
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Sr.No</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+                
+                <tr>
+                    <td><%= parseInt(i)+1%></td>
+                    <td><%= response[i].name ? response[i].name : '' %></td>
+                    <td><%= response[i].description ? response[i].description : '' %></td>
+                    <td>
+                    <label class="switch">
+                      <input type="checkbox" class="change_status" table="illnesses" rel="<%= response[i].id %>" value="<%= response[i].status %>" <%= (response[i].status)? 'checked':'' %> >
+                      <span class="slider round" ></span>
+                    </label>
+
+                  
+                  </td>
+                  <td><a href="/sponsers/edit?id=<%= response[i].id%>"><span class="glyphicon glyphicon-edit"></span></a></td>
+                  <td>
+                    <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>" value="<%= response[i].status %>" <%= (response[i].status)? 'checked':'' %> table="illnesses" >Delete
+                    </button>
+                  </td>
+                 
+                </tr>
+                
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  
+
+
+<% include ../footer.ejs %> 
+

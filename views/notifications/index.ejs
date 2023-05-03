@@ -1,0 +1,110 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+ 
+  <!-- Left side column. contains the logo and sidebar -->
+ 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Notifications
+        <small> </small>
+      </h1>
+      
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+      
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+    
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover csv_table">
+                <thead>
+                <tr>
+                  <th>Sr.No</th>
+                  <th>User</th>
+                  <th>Sponsors</th>
+                  <th>Appointment</th>
+                  <th>Message</th>
+                  
+                  <th>Action</th>
+                  
+              
+                  
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+                
+                <tr>
+                  <td><%= parseInt(i)+1%></td>
+                  <td><%= response[i].u_username ? response[i].u_username : '' %></td>
+                  <td><%= response[i].s_username ? response[i].s_username : '' %></td>
+                  <td><%= response[i].appointment_for ? response[i].appointment_for : '' %></td>
+                  <td><%= response[i].message ? response[i].message : '0' %></td>
+                  
+                   <td><div>
+                    
+                    <a href="/notifications/views?id=<%= response[i].id%>" title="Views" class="btn btn-primary a-btn-slide-text">
+                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    <span>View</span>            
+                     </a>
+                    <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>" value="<%= response[i].status %>" <%= (response[i].status)?'checked':'' %> table="notifications" >Delete</button>
+                  </div></td>
+                
+
+                  
+                  
+
+                 
+                </tr>
+                
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              <div>
+                  <p></p>
+                </div
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  
+</div>
+
+<% include ../footer.ejs %> 
+
+
+
+

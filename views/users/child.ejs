@@ -1,0 +1,180 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+
+  <!-- Left side column. contains the logo and sidebar -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Members Details 
+        <small> </small>
+      </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong>
+        <%= msg %>
+      </div>
+      <%}%>
+     
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover csv_table">
+                <thead>
+                  <tr>
+                    <th>Sr.No</th>
+                    <th>Member Name</th>
+                    <th>Member Type</th>
+                    <th>Relation</th>
+                    <!-- <th>Email</th> -->
+                    <th>Date Of Birth</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+
+                  <tr>
+                    <td>
+                      <%= parseInt(i)+1%>
+                    </td>
+                    <td>
+                      <%= response[i].username ? response[i].username : '' %>
+                    </td>
+                   
+                      <% if(response[i].member_type==1){%>
+                        <td>App User</td>
+
+                        <%}else if (response[i].member_type==2){%>
+                          <td>Sms User</td>
+
+                          <%}else if(response[i].member_type==3){%>
+                            <td>Child</td>
+
+                            <%}%>
+                    
+                            <td><%= response[i].relation%></td>
+                   
+                    <!-- <td>
+                      <%= response[i].email ? response[i].email : '' %>
+                    </td> -->
+                    <td>
+                        <%= response[i].dob ? response[i].dob : '' %>
+                    </td>
+                    <!-- <td><%= response[i].address ? response[i].address : '' %></td>
+                    <td>
+                        <%= response[i].state ? response[i].state : '' %>
+                    </td> -->
+                    <td>
+                      <%= response[i].phone_number ? response[i].phone_number : '' %>
+                    </td>
+                    <td>
+
+                        <a href="/users/views?id=<%= response[i].id%>" title="Views" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                          <span>View</span>
+                        </a>
+                    </td>
+                  
+                   
+                  
+
+
+
+
+
+
+                  </tr>
+
+                  <%  }
+                } %>
+                </tbody>
+
+              </table>
+              <div>
+                <p></p>
+              </div> </div> <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+</div>
+
+<% include ../footer.ejs %>
+
+<!-- <div class="modal fade" id="myModalss">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        
+        <div class="modal-header">
+          <h4 class="modal-title">Child Details</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <div class="modal-body modelData" id ="modal_dbody">
+
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div> -->
+  
+</div>
+
+  
+</div>
+<!-- Modal -->
+<!-- <div id="myModalss" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+     
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Child Details</h4>
+        </div>
+        <div class="modal-body" id="modal_dbody">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  
+    </div> -->
+  </div>
+

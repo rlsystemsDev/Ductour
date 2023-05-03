@@ -1,0 +1,111 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+
+  <!-- Left side column. contains the logo and sidebar -->
+ 
+  <!-- Content Wrapper. Contains page content -->
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+         Claim List Ducmeal
+        <small> </small>
+      </h1>
+      
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+    
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th>Username</th>
+                  <th>DucMeal Code</th>
+                  <th>Restaurants group Code</th>
+                  <th>Date</th>
+                  <th>Restaurant Name</th>
+                  <th>DUC. ID</th>
+                  <!-- <th>Status</th> 
+                  <th>Ducmeal Expires on </th> -->
+                  <!-- <th>No.Of DucMeal Group</th> -->
+                  <th>Action</th>
+                  
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+                <tr>
+                  <td><%= parseInt(i)+1%></td>
+                  <td><%= response[i].username? response[i].username:''%></td>
+                  <td><%= response[i].mealcode? response[i].mealcode:'No Mealcode'%></td>
+                  <td><%= response[i].groupCode? response[i].groupCode:''%></td>
+                  <td><%= response[i].created_at? response[i].created_at:''%></td>
+                  <td><b><%= response[i].restro_name? response[i].restro_name:''%></b></td>
+                   <td><%= response[i].policy_number? response[i].policy_number:''%></td>
+                   <!-- <td><%= response[i].name? response[i].name:''%></td> -->
+                  
+                   <!-- <td><span rel="<%=response[i].id%>" class="label <%= (response[i].policy_status == '0') ? 'label-success ' : 'label-danger '%>" status="<%= response[i].policy_status%>">  <%= (response[i].policy_status == 1) ? 'Inactive' : 'Active'%></span></td>
+                   <td><%= response[i].expiry_date? response[i].expiry_date:''%></td>
+                   <td><%=(response[i].used==0)? '0' : response[i].used%></td>
+                
+                   <td><%=(response[i].unused==0)? '0' : response[i].unused%></td> -->
+                   <td>
+                   <a href="/insurance/claim_view_ducmeal?id=<%= response[i].id%>" title="Views" class="btn btn-primary a-btn-slide-text">
+                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    <span>View</span>            
+                     </a>
+                    <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>" value="<%= response[i].status %>" <%= (response[i].status)?'checked':'' %> table="user_policies" >Delete</button>
+                  
+                 </td>
+                  
+                 
+                </tr>
+                
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              <div>
+                  <p></p>
+                </div
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+
+  
+</div>
+
+<% include ../footer.ejs %> 

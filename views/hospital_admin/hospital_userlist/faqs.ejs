@@ -1,0 +1,78 @@
+<% include ./header.ejs %> 
+<% include ./navbar.ejs %> 
+<% include ./sidebar.ejs %> 
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+       faq List (Hospital)
+        <small> </small>
+      </h1>
+      
+    </section>
+  
+    <!-- Main content -->
+    <section class="content">
+    <!-- <a href="/hospitaldash/illness_add" class="btn btn-info" role="button">Add</a><br></br> -->
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th>Title</th>
+                  <th>Contents</th>
+                 
+                 
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+                <tr>
+                  <td><%= parseInt(i)+1%></td>
+                  <td><%= response[i].title ? response[i].title : ''%></td>
+                  <td><%- response[i].content ? response[i].content : ''%></td>
+                 
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              <div>
+                  <p></p>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+</div>
+
+<% include ./footer.ejs %> 
+

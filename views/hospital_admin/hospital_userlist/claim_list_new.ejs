@@ -1,0 +1,125 @@
+<% include ./header.ejs %> 
+<% include ./navbar.ejs %> 
+<% include ./sidebar.ejs %> 
+
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+       View Claims
+        <small> </small>
+      </h1>
+    </section>
+  
+    <!-- Main content -->
+    <section class="content">
+    <!-- <a href="/hospitaldash/illness_add" class="btn btn-info" role="button">Add</a><br></br> -->
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th>User Name</th>
+                  <th>Phone Number</th>
+                  <th>DUC. ID</th>
+                  <th>Treatment Name</th>
+                  <th>Items</th>
+                  <th>Text</th>
+                  <th>Claimed Amount</th>
+                  <th>Claimed Date</th>
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+                <tr>
+                  <td><%= parseInt(i)+1%></td>
+                  <td><%= response[i].username ? response[i].username : ''%></td>
+                  <%
+                   let newnumber= response[i].phone_code.concat(response[i].phone_number);
+                  %>
+                  <td><%=newnumber%></td>
+                   <td><%= response[i].policy_number? response[i].policy_number:''%></td> 
+                   <td><%= response[i].name? response[i].name:''%></td>
+                   <td>
+                    <%for(let j in response[i].Items){%>
+                     <%= response[i].Items[j].name? response[i].Items[j].name:''%><br>
+                    <%}%>
+                   </td>
+                   <td><%= response[i].text? response[i].text:''%></td>
+                   <td><%= response[i].amount? response[i].amount:''%></td>
+                   <td><%= response[i].claim_date? response[i].claim_date:''%></td>
+<!-- 
+                  <td><%= response[i].created_at? response[i].created_at:''%></td>
+                  
+               
+                <td><%= response[i].claimDate? response[i].claimDate:''%></td>
+                <td><%= response[i].text%></td> -->
+                <!-- <td>
+                  <% let claim = response[i].no_claim;%>
+                  <div class="btn-group project-list-ad">
+                      <% if(claim ==1){ %>
+                      <a href="#" id="loadModals" rel="<%=response[i].userid%>" claimId="<%=response[i].claimId%>"><span class="label label-success status"
+                              table="claim_list">Varify Amount</span></a>
+                      <%} else{ %>  
+                        <p>OTP Varification  Pending</p>
+                    <% } %>
+                      %>
+                    
+                  </div>
+              </td> -->
+                  <!-- <td>
+                 
+                  <a href="/hospitaldash/view?id=<%= response[i].id %>" class="btn btn-primary a-btn-slide-text">
+                      <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                      <span><strong>View</strong></span>   
+                  </a>
+              
+                  
+                 </td> -->
+                 <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                  
+                 
+                </tr>
+                
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              <div>
+                  <p></p>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+ 
+
+
+  

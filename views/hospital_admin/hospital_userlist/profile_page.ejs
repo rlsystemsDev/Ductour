@@ -1,0 +1,156 @@
+<% include ./header.ejs %> 
+<div class="wrapper">
+<% include ./navbar.ejs %> 
+<% include ./sidebar.ejs %> 
+  <div class="content-wrapper">
+
+
+    <!-- Main content -->
+    
+  <!-- s -->
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}%>
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+            
+            
+              <h3 style="text-align: ">Edit Profile</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" 
+            action="/hospitaldash/update_hospital_profile">
+              <div class="box-body">
+                 <% if(response.image){ %>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Image</label>
+                      <div ><img style="width:200px; height: 150px;" id="output" src="/images/users/<%= response.image%>"></div>
+                    </div>
+                    <% } %>
+                  
+              <div class="form-group">
+
+                  <label for="username">Username</label>
+                  <input type="text" class="form-control" id="username"  name="username" value="<%= response.name ? response.name : ''  %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" name="email"  required value="<%= response.email ? response.email : ''  %>" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="image"> Upload Image</label>
+                  <input type="file" onchange="loadFile(event)" id="exampleInputFile" name="file" accept="image/*" <% if(!response.image){ %> required <% } %>>  
+                  
+                </div>
+               
+                 
+                
+<button type="submit" class="btn btn-primary">Save</button>
+              </div>
+              
+            </form>
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">
+          <img id="output" style="width:300px;height:auto;max-height:500px;">
+        </div>
+        <button type="button" class="btn btn-info btn-md" data-toggle="modal"  style="float:center" data-target="#myModal">Change Password </button>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Change Password</h4>
+        </div>
+        <div class="modal-body">
+           <form role="form" method="POST" enctype="multipart/form-data" action="/hospitaldash/save_password">
+              <div class="box-body">
+
+
+
+                  <div class="form-group">
+                  <label for="old_password">Current Password</label>
+                  <input type="password" class="form-control" id="old_passwords" name="old_password"  required value="">
+                  <span style="display: none;color: red;" id="sgs">Invalid Password</span>
+                </div>
+
+                 <div class="form-group">
+                  <label for="new_password">New Password</label>
+                  <input type="password" class="form-control" id="new_passwords" name="new_password"  required value="">
+                </div>
+                <div class="form-group">
+                  <label for="confirm_password">Confirm Password</label>
+                  <input type="password" class="form-control" id="confirm_passwordd" name="confirm_password"  required value="">
+                  <span style="display: none;color: red;" id="msfs">New Password and Confirm Password did not matched</span>
+                </div>
+
+                <input type="hidden" value="<%= session.h_id ? session.h_id:'' %>" id="h_id">
+                <button type="submit" class="btn btn-primary" id="sub_button">Save</button>
+              </div>
+              
+            </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<% include ./footer.ejs %> 
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#old_passwords").on('input',function(){
+        old_password = $(this).val();
+        h_id = $("#h_id").val();
+        
+        if(old_password && h_id){
+          $.ajax({
+              type: "POST",
+              url: "/hospitaldash/check_password",
+              data: { old_password: old_password,id:h_id },
+              success: function(data) {
+                if(data==0){
+                  $("#sgs").show();
+                  $("#sub_button").attr("disabled",true);
+                }else{
+                  $("#sgs").hide();
+                  $("#sub_button").attr("disabled",false);
+
+                }
+              },error(error){
+                console.error(error);
+              }
+            });
+      
+        }
+      });
+
+      $("#confirm_passwordd").on("input",function(){
+        conf = $("#confirm_passwordd").val();
+        new_pas = $("#new_passwords").val();
+        if(conf != new_pas){
+          $("#msfs").show();
+          $("#sub_button").attr("disabled",true);
+        }else{
+          $("#msfs").hide();
+          $("#sub_button").attr("disabled",false);
+        }
+      });
+  }); 
+</script>

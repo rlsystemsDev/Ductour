@@ -1,0 +1,76 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+  <div class="content-wrapper">
+
+   <%console.log(cat,"======fef")%>
+
+    <!-- Main content -->
+
+    <section class="content">
+      <% if(msg!=''){%>
+      <div class="alert alert-error col-xs-6" id="msg">
+        <strong></strong>
+        <%= msg %>
+      </div>
+      <%}%>
+
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+
+              <h3>Create Items</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/item/save">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Item Name</label>
+                  <input type="text" class="form-control" id="exampleInputfirstname" name="name" placeholder="Enter Item Name"
+                    value="<%= response.name ? response.name:''%>" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Item Cost</label>
+                  <input type="text" class="form-control" id="exampleInputfirstname" name="cost" placeholder="Enter item cost"
+                    value="<%= response.cost ? response.cost:''%>" required>
+                </div>
+                <div class="form-group">
+                  <label>Select Category</label>
+                    <div class="row-fluid ua">
+                      
+                        <select class="select2 form-control" data-show-subtext="true" data-live-search="true" name ="category_id">
+                          <option  name ="items" value="0">Select any one</option>
+                          <% for(let i in cat){%>
+                          
+                          <option  name ="items" value="<%= cat[i].id%>"<% if( response.category_id == cat[i].id) {%>selected<%}%> ><%=cat[i].name%></option>
+                          <%}%>
+                         </select>
+                    </div>
+              </div>
+                <input type="hidden" name="id" value="<%= response.id ? response.id:''%>">
+                <!-- /.box-body -->
+                <button type="submit" class="btn btn-info" onclick="goBack()">Back</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+
+</div>
+<% include ../footer.ejs %>

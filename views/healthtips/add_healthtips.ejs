@@ -1,0 +1,215 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+  <div class="content-wrapper">
+
+    <!-- Main content -->
+
+
+    <section class="content">
+      <% if(msg!=''){%>
+      <div class="alert alert-error col-xs-6" id="msg">
+        <strong></strong> <%= msg %>
+      </div>
+      <%}%>
+        
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+            
+              <h3><%= response.title ? 'Edit '+response.title : 'Create New healthtips'  %></h3>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  <form role="form" method="POST" enctype="multipart/form-data" action="/healthtips/save">
+    <div class="box-body">
+      <div class="form-group">
+        <% if(response.image){ %>
+       
+
+        <div><% if(response.video !=''){%>
+          <video width="50px" height="50px" controls>
+            <source src="/images/users/<%= response.video ? response.video : '' %>" type="video/ogg">
+          </video><%}%></div>
+                    
+                    <% } %>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Title</label>
+          <!-- <button type="button" id="words" class="btn btn-danger pull-right">Words Reamining <span class="badge"></span></button><br><br> -->
+          <div class="col-lg-12 input-group">
+             
+          <input type="text" class="form-control" id="healtips_title" name="title"  maxlength="35" size="35" placeholder=""
+            value="<%= response.title ? response.title : ''  %>">
+            <span class="input-group-addon"><span id="words"></span></span>
+            </div>
+            <!-- <span id="words"></span> -->
+           
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Article</label>
+         
+          <textarea class="ckeditor" rows="4" cols="40" name="article"
+            class="form-control"><%= response.article ? response.article : '' %></textarea>
+        </div>
+   
+        <div class="form-group">
+        
+          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalsss">Upload
+            Video</button>
+
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Description</label>
+          <input type="textarea" class="form-control" id="exampleInputlastname" name="description" placeholder=""
+           value="<%= response.description ? response.description : ''  %>">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputFile"> Upload Image</label>
+            <input type="file" onchange="loadFile(event)" id="exampleInputFile" name="image" <% if(!response.image){ %>  <% } %>>  
+            <label for="exampleInputFile"> Please Upload Image of minimum (473px width and height: 291px)Pixels for Better View</label>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputFile"> Upload Audio</label>
+              <input type="file" onchange="loadFile(event)" id="exampleInputFile" name="audio"  <% if(!response.audio){ %> selected <% } %>>  
+              
+            </div>
+
+        <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+        <button type="submit" class="btn btn-info " onclick="goBack()">Back</button>
+        <button type="submit" class="btn btn-primary submit">Save</button>
+      </div>
+      <!-- /.box-body -->
+      <div class="modal fade" id="myModalsss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+    
+            <b>
+              <p>Upload Video</p>
+            </b>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <div class="modal-body">
+              <b>
+                <p>Upload Vimeo Link</p>
+              </b>
+              
+              <input type="text" class="form-control" name="vimeoLink" id="vimeoLink" placeholder="Enter Link Here" value="<%= response.vimeo_link ? response.vimeo_link : ''  %>"  >
+             
+    
+              OR
+              <b>
+                <p>Upload Youtube Link</p>
+              </b>
+              <input type="text" class="form-control" name="youtubeLink" id="youtubeLink" placeholder="Enter Link Here" value="<%= response.youtube_link ? response.youtube_link : ''  %>">
+             
+              OR
+              <b>
+                <p>Upload From System</p>
+              </b>
+              <input type="file" class="form-control" name="file" id="file" placeholder="Enter video" >
+              <b>
+
+                <p>Upload thumb</p>
+              </b>
+              <input type="file" class="form-control" name="thumb" id="file" placeholder="Enter video thumb" >
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <div class="modal-footer">
+    
+                      <button type="button" class="btn btn-primary submitdetails">Upload</button>
+                  </div> -->
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+</div>
+<div class="=" col-md-4">
+  <img id="output" style="width:400px;height:auto;max-height:600px;">
+</div>
+</div>
+</section>
+<!-- /.content -->
+</div>
+<div class="control-sidebar-bg"></div>
+<div class="modal fade" id="myModalsss234234" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <b>
+          <p>Upload Video</p>
+        </b>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form enctype="multipart/form-data" name="healthtips">
+        <div class="modal-body">
+          <b>
+            <p>Upload Vimeo Link</p>
+          </b>
+          <input type="text" class="form-control" name="vimeoLink" id="vimeoLink" placeholder="Enter Link Here">
+          <input type="hidden" id="vimeoLink" value="" name="mdels" required>
+
+          OR
+          <b>
+            <p>Upload Youtube Link</p>
+          </b>
+          <input type="text" class="form-control" name="youtubeLink" id="youtubeLink" placeholder="Enter Link Here">
+          <input type="hidden" id="youtubeLink" value="" name="mdels" required>
+
+          OR
+          <b>
+            <p>Uplaod From System</p>
+          </b>
+          <input type="file" class="form-control" name="file" id="file" placeholder="Enter Claimed Amount">
+        </div>
+        <!-- <div class="modal-footer">
+
+                  <button type="button" class="btn btn-primary submitdetails">Upload</button>
+              </div> -->
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<% include ../footer.ejs %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.11.3/ckeditor.js"></script>
+
+<script>
+  $(document).on('click', '#myModalsss', function () {
+
+    // var id = $(this).attr('rel');
+    // $("#modalVals").val(id);
+    $('#exampleModalsss').modal({
+      show: true
+    });
+  });
+</script>
+<script>
+ $(document).ready(function(){
+    $('#healtips_title').keyup(function(){
+   var wordCount = $(this).val().length;
+   var totalLength=35
+   var rem= totalLength-wordCount
+    console.log(rem,"===========wordCount");
+      $('#words').html(rem + "/35");
+});
+});
+
+ 
+</script>

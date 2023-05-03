@@ -1,0 +1,306 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+
+  <!-- Left side column. contains the logo and sidebar -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Users
+        <small> </small>
+      </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+      <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong>
+        <%= msg %>
+      </div>
+      <%}%>
+      <a href="/users/create" class="btn btn-info pull-right" role="button">Add</a><br></br>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover csv_table">
+                <thead>
+                  <tr>
+                    <th>Sr.No</th>
+                    <!-- <th>id</th> -->
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Date Of Birth</th>
+                    <th>Phone No</th>
+                   
+                     <!-- <th>Expiry Date</th> -->
+                    <!-- <th>AGE</th> -->
+                    <th>Image</th>
+                    <!-- <th>Policy Taken History</th> -->
+                    <th>Gender</th>
+                 <!--  <th>Bvn</th> -->
+                    <th>Action</th>
+
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+
+                  <tr>
+                    <td>
+                      <%= parseInt(i)+1%>
+                    </td>
+                    <!-- <td>
+                      <%= response[i].id ? response[i].id : '' %>
+                    </td> -->
+                    <td>
+                      <%= response[i].username ? response[i].username : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].email ? response[i].email : '' %>
+                    </td>
+                    <td><span rel="<%=response[i].id%>" class="label <%= (response[i].active_status == '0') ? 'label-danger dan' : 'label-success dan'%>" status="<%= response[i].active_status%>">  <%= (response[i].active_status == 0) ? 'Inactive' : 'Active'%></span></td>
+                    <td>
+                      <%= response[i].dob ? response[i].dob : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].phone_number ? response[i].phone_number : '' %>
+                    </td>
+                    <!-- <td>
+                        <%= response[i].expiry? response[i].expiry : '' %>
+                      </td> -->
+                    <!-- <td>
+                      <%= response[i].age ? response[i].age : '0' %>
+                    </td> -->
+                   
+                    <td>
+                        <%  if(response[i].image !=''){%>
+                          <img id="imgss_<%= response[i].id%>" class="myImg" style="width:50px; height: 50px;"
+                          src="<%= response[i].image ? response[i].image : '' %>">
+                         
+                      <% } else{ %>  
+                        <img id="" class="myImg" style="width:50px; height: 50px;"
+                        src="/images/users/admin.png">
+                      <% } %>
+                    </td>
+                    <!-- <td><a data-toggle="modal" data-target="#policyModal" user_id="<%= response[i].id%>" class="btn btn-primary a-btn-slide-text policyusers">
+                      <span class="glyphicon glyphicon-doc" aria-hidden="true"></span>
+                      <span>View Policy </span>
+                    </a></td> -->
+                    <td><%= response[i].gender ? response[i].gender : '' %></td>
+                  <!-- <td><%= response[i].blood_group ? response[i].blood_group : '' %></td>
+                  <td><%= response[i].bvn ? response[i].bvn : '' %></td> -->
+                    <td>
+                      <div>
+                        <a href="/users/edit?id=<%= response[i].id%>" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                          <span>Edit</span>
+                        </a>
+                      
+                        <a href="/users/views?id=<%= response[i].id%>" title="Views" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                          <span>View</span>
+                        </a>
+                        <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>"
+                          value="<%= response[i].status %>"<%= (response[i].status)? ' checked ' : '' %> table="users"
+                          >Delete</button>
+                          <%if(response[i].is_seen==1){%>
+                          <button type="button"  id="child" rel="1" value="<%= response[i].id%>" class="btn btn-primary child" style="background: green">Members Details(New)</button>
+                          <%}else{%>
+                            <button type="button"  id="child" rel="1" value="<%= response[i].id%>" class="btn btn-primary child">Members Details</button>
+                            <%}%>
+                      </div>
+                    </td>
+
+
+
+
+
+
+                  </tr>
+
+                  <%  }
+                } %>
+                </tbody>
+
+              </table>
+              <div>
+                <p></p>
+              </div </div> <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+</div>
+<div id="policyModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Policy Details</b></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Policy Number</label>
+          
+          <input type="text" class="form-control" id="policy_num" name="policy_number" placeholder="Enter Policy Number" required >
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="" id="getpolicyuserId" idd=""><button type="button" class="btn btn-default ">Submit</button></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<% include ../footer.ejs %>
+
+
+</div>
+
+  
+</div>
+
+  </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+/* $('button').on('click', function() {
+  let parent_id= $(this).val();
+  console.log(parent_id,'check');
+  $.ajax({
+              type:"POST",
+              data:{id:parent_id},
+              url:"/hospitaldash/child_view",
+              success:function(data){
+              console.log(data);
+              }
+            }
+}); */
+
+$(".child").click(function(e) {	
+    //e.preventDefault();
+    
+    let user_id= $(this).val();
+ 
+    $.ajax({
+        type: "GET",
+        data: {id:user_id},
+        url: "/users/child_views",	
+        success:function(data){
+            
+            if(data==0){
+              swal({
+            //title: "Alert",
+            text: "No Child Details Found",
+            type: "warning"
+            });
+              
+            } else{
+              
+                //res.redirect('/get_child');
+                document.location.href = '/get_child?id='+user_id;
+              /* type: "GET",
+              data: {id:data[]},
+              window.location.href = '/admin/dashboard'; */
+             
+              /* var append_html = '';
+              if(data.length>0)
+              {
+                for(let i in data){
+                  append_html += `<p><b>User Name</b><p><p>${data[i].username}<p>`;
+                  append_html += `<p><b>Blood Group</b><p><p>${data[i].blood_group}<p>`;
+                  append_html += `<	p><b>Address</b><p><p>${data[i].address}<p>`;
+                  //append_html += `<p><b>Parent ID</b><p><p>${data[i].is_parent}<p>`;
+                  append_html += `<p><b>State</b><p><p>${data[i].state}<p>`;
+                  append_html += `<p><b>Email</b><p><p>${data[i].email}<p>`;
+                  append_html += `<p><b>Dob</b><p><p>${data[i].dob}<p>`;
+
+                }
+                
+              }
+
+              $("#modal_dbody").html(append_html);
+              $('#myModalss').modal('show');
+              //append_html += `<p><b>User Id</b><p><p${data[0].id}<p>`;
+                */
+               
+              
+            } 
+              }
+    });
+});
+</script>
+<script type="text/javascript">
+  $(document.body).on('click','.dan',function(){
+   // alert("gregg");
+  
+  let _this=$(this);
+  let id= _this.attr('rel');
+  //alert(id);
+   let status = (_this.attr('status')==1) ? 0 : 1;
+    
+  _this.attr('status',status);
+  //alert(status);
+  //let table = _this.attr('table'); 
+  _this.val(status);
+  $.ajax({
+  type: "POST",
+  url: "/user_update_status",
+  data: { id: id, status: status },
+  success: function(data) {
+  
+    (status == 0) ? _this.removeClass('label-success').addClass('label-danger').text('Inactive') : _this.removeClass('label-danger').addClass('label-success').text('active') ;
+  
+
+  
+  },error(error){
+
+  console.error(error);
+  }
+  });
+  });
+  </script>
+  <script>
+    $(document).ready(function(){
+      $(".policyusers").click(function() {
+        let u = $(this).attr("user_id");
+        $("#getpolicyuserId").attr("idd",u);
+      })
+      
+      $('#getpolicyuserId').click(function(){
+        // let userId = $(".policyusers").attr("user_id");
+        let userId = $("#getpolicyuserId").attr("idd");
+        //  alert(userId);
+        let text = $("#policy_num").val();
+        // alert(text);
+        $("#getpolicyuserId").attr("href","/users/viewPolicy?userid="+userId+"&PolicyNum="+text)
+      });
+    });
+  </script>

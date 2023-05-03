@@ -1,0 +1,92 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+  <div class="content-wrapper">
+    
+
+
+    <!-- Main content -->
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-success col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}
+       %>
+
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><%= response.first_name ? 'Edit' : ' '  %> <b><%= response.first_name ? response.first_name : ' Add Hospital'  %></b></h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/hospital/save">
+              <div class="box-body">
+              <div class="form-group">
+                  <% if(response.photo){ %>
+                    <div ><img style="width:100px; height: 150px;" src="/images/users/<%= response.photo%>"></div>
+                    <% } %>
+              </div>
+              <div class="form-group">
+              
+                <label for="exampleInputEmail1">Hospital Name</label>
+                <input type="text" class="form-control" id="exampleInputfirstname" name="hospital_name"placeholder="Enter Hospital name " value="<%= response.hospital_name ? response.hospital_name : ''  %>" required>
+              </div>
+              <div class="form-group">
+              
+                <label for="exampleInputEmail1">Email</label>
+                <input type="text" class="form-control" id="exampleInputfirstname" name="hospital_email" placeholder="Enter Hospital Email" value="<%= response.hospital_name ? response.hospital_name : ''  %>" required>
+              </div>
+              <div class="form-group">
+              
+                <label for="exampleInputEmail1">Password</label>
+                <input type="password" class="form-control" id="exampleInputfirstname" name="hospital_password" placeholder="Enter Hospital Password" value="<%= response.password ? response.password : ''  %>" required>
+              </div>
+                 <!-- <div class="form-group">
+                  <label for="exampleInputEmail1">Policies</label>
+                    <select class="form-control id="exampleInputlastname" name="policy_id">
+                        <option value="Please Select">Please Select</option>
+                        <% if(policies && policies !=''){
+                        for(let i in policies){%>
+                        <option value="<%= policies[i].id%>"><%= policies[i].name%></option>
+                        <%} }else{%>
+                        <option value="">no policy found</option>
+                        <%}%>
+                  </select>
+                </div> -->
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">Location</label>
+                  <input type="text" class="form-control" id="exampleInputlastname" name="location" placeholder="Location" required value="<%= response.location ? response.location : ''  %>">
+                </div>
+                 <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+              <!-- /.box-body -->
+
+              
+            </form>
+          </div>
+
+
+        </div>
+        
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+</div>
+
+
+<% include ../footer.ejs %> 
+<!-- <script>
+    var loadFile = function(event) {
+      var output = document.getElementById('output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+    };
+  </script> -->
+

@@ -1,0 +1,73 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+  <div class="content-wrapper">
+
+   
+    <!-- Main content -->
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-success col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}
+       %>
+
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3>Treatment Range</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/admin/range_save">
+              <div class="box-body">
+              
+              <div class="form-group">
+              
+                <label for="exampleInputEmail1">Treatment Range</label>
+                <select class="form-control id="exampleInputlastname" name="ilnnes_range">
+                        <option value="">Select</option>
+                        <option value="1" <% if(response && response!='' && response[0].ill_range==1){ %>selected<% }%>>1</option>
+                        <option value="2" <% if(response && response!='' && response[0].ill_range==2){ %>selected<% }%>>2</option>
+                        <option value="3" <% if(response && response!='' && response[0].ill_range==3){ %>selected<% }%>>3</option>
+                        <option value="4" <% if(response && response!='' && response[0].ill_range==4){ %>selected<% }%>>4</option>
+                        <option value="5" <% if(response && response!='' && response[0].ill_range==5){ %>selected<% }%>>5</option>
+                        <option value="6" <% if(response && response!='' && response[0].ill_range==6){ %>selected<% }%>>6</option>
+                        <option value="7" <% if(response && response!='' && response[0].ill_range==7){ %>selected<% }%>>7</option>
+                        <option value="8" <% if(response && response!='' && response[0].ill_range==8){ %>selected<% }%>>8</option>
+                        
+                  </select>
+              </div>
+
+                 <input type="hidden" value="<%= response[0].id ? response[0].id : ''  %>" name="user_id">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+              <!-- /.box-body -->
+
+              
+            </form>
+          </div>
+
+
+        </div>
+        
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+</div>
+
+
+<% include ../footer.ejs %> 
+<!-- <script>
+    var loadFile = function(event) {
+      var output = document.getElementById('output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+    };
+  </script> -->
+

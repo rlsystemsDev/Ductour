@@ -1,0 +1,104 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+  <div class="content-wrapper">
+    
+
+
+    <!-- Main content -->
+    
+   
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}%>
+        
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <button type="submit" class="btn btn-info btn pull-right" onclick="goBack()">Back</button>
+              <h3>View <%= response.username ? response.username : ''%> </h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/users/save">
+              <div class="box-body">
+                  <% if(response.image){ %>
+                    <div class="form-group">
+                      
+                      <div ><img style="width:200px; height: 150px;" id="output" src="/images/users/<%= response.image%>"></div>
+                    </div>
+                    <% } %>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Username</label>
+                  <p><%= response.username ? response.username : ''  %></p>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Address</label>
+                  <p><%= response.address ? response.address : ''  %></p>
+                  </div>
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">City</label>
+                  <p><%= response.city ? response.city : ''  %></p>
+                  
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">State</label>
+                  <p><%= response.state ? response.state : ''  %></p>
+                  
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">DOB</label>
+                  <p><%= response.dob ? response.dob : ''  %></p>
+                  
+                </div>
+                
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Gender</label>
+                  <p><%= response.gender ? response.gender : ''  %></p>
+                   
+                </div>
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">Blood Group</label>
+                  <p><%= response.blood_group ? response.blood_group.toUpperCase()  : ''  %></p>
+                   
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <p><%= response.email ? response.email  : ''  %></p>
+                  
+                </div>
+                
+                
+                <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                
+                
+                
+              </div>
+              <!-- /.box-body -->
+
+              
+            </form>
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">
+          <img id="output" style="width:400px;height:auto;max-height:600px;">
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<% include ../footer.ejs %> 
+
+

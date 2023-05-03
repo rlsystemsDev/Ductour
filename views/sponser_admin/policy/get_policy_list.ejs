@@ -1,0 +1,104 @@
+<% include ../header.ejs %> 
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+ 
+  <!-- Left side column. contains the logo and sidebar -->
+ 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+       Policy List
+        <small> </small>
+      </h1>
+      
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <a href="/sponsers/policy_create" class="btn btn-info" role="button">Add Polices</a><br></br>
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              <% console.log(response);%>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th> Policy Name</th>
+                  <th> Policy Number</th>
+                  <th> Policy Details</th>
+                   <th>Expiry Date </th>
+                    <th>Action</th>
+
+                  
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                  
+                %>
+                
+                <tr>
+                  <td><%= parseInt(i)+1%></td>
+                  <td><%= response[i].name ? response[i].name  : ''%></td>
+                  <td><%= response[i].number? response[i].number:''%></td>
+                  <td><%= response[i].description? response[i].description:''%></td>
+                  <td><%= response[i].expiry_date? response[i].expiry_date:''%></td>
+                 
+                  <td>
+                   <a href="/sponsers/policy_edit?id=<%= response[i].id %>" class="btn btn-primary a-btn-slide-text">
+                      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                      <span><strong>Edit</strong></span>            
+                  </a>
+                  <a href="/sponsers/policy_view?id=<%= response[i].id %>"" class="btn btn-primary a-btn-slide-text">
+                      <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                      <span><strong>View</strong></span>            
+                  </a>
+                  <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>" value="<%= response[i].status %>" <%= (response[i].status)?'checked':'' %> table="policies" >Delete</button>
+                  
+                 </td>
+                 <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                  
+                 
+                </tr>
+                
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              <div>
+                  <p></p>
+                </div
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+
+  
+</div>
+
+<% include ../footer.ejs %> 

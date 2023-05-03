@@ -1,0 +1,242 @@
+<%
+      let s_id= session.siderbar_id.split(",");
+     
+    %>
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+
+      <div class="pull-left info">
+        <p></p>
+      </div>
+    </div>
+
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+     
+      <li <% if(title=='Dashboard' ){%>class="active"
+        <%}%>>
+        <a href="/admin/dashboard">
+          <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+
+        </a>
+
+      </li>
+     
+      <% if(s_id.indexOf('14')!= -1){%>
+      <li <% if(title=='employee' ){%>class="active"
+        <%}%>>
+        <a href="/employee">
+          <i class="fa fa-user"></i>
+          <span>Add Employee</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('1')!= -1){%>
+      <li <% if(title=='Users' ){%>class="active"
+        <%}%>>
+        <a href="/users">
+          <i class="fa fa-user"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('2')!= -1){%>
+      <li <% if(title=='meal' ){%>class="active"
+          <%}%>>
+          <a href="/get_meal">
+            <i class="fa fa-cutlery"></i>
+            <span>Duc Meal</span>
+          </a>
+        </li>
+        <%}%>
+        <% if(s_id.indexOf('3')!= -1){%>
+      <li <% if(title=='Challenges' ){%>class="active"
+        <%}%>>
+        <a href="/policy">
+          <i class="fa fa-universal-access"></i>
+          <span>DUC ID</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('4')!= -1){%>
+      <li <% if(title=='Attempt Challenges' ){%>class="active"
+        <%}%>>
+        <a href="/sponsors/healthgames">
+          <i class="fa fa-handshake-o"></i>
+          <span>Health Games</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('5')!= -1){%>
+      <li <% if(title=='Favorites' ){%>class="active"
+        <%}%>>
+        <a href="/healthtips">
+          <i class="fa fa-star"></i>
+          <span>Health Tips</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('6')!= -1){%>
+      <li <% if(title=='Contacts' ){%>class="active"
+        <%}%>>
+        <a href="/insurance/claim_list">
+          <i class="fa fa-folder-open"></i>
+          <span>Claim List</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('7')!= -1){%>
+      <li <% if(title=='hospitalclaim' ){%>class="active"
+        <%}%>>
+        <a href="/insurance/hospital_claimed">
+          <i class="fa fa-folder-open"></i>
+          <span> Hospital Claimed List</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('8')!= -1){%>
+      <li <% if(title=='ducmeal' ){%>class="active"
+        <%}%>>
+        <a href="/insurance/ducmel_claim_list">
+          <i class="fa fa-folder-open"></i>
+          <span> Duc Meal Claim List</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('9')!= -1){%>
+      <li <% if(title=='Contacts' ){%>class="active"
+        <%}%>>
+        <a href="/hospitals">
+          <i class="fa fa-folder-open"></i>
+          <span>Hospitals  </span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('10')!= -1){%>
+      <li <% if(title=='Contacts' ){%>class="active"
+        <%}%>>
+        <a href="/hmo/get_hmo_list">
+          <i class="fa fa-folder-open"></i>
+          <span>Agent Module</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('11')!= -1){%>
+      <li <% if(title=='Contents' ){%>class="active"
+        <%}%>>
+        <a href="/sponsors_list">
+          <i class="fa fa-cogs"></i>
+          <span>Sponsors</span>
+        </a>  
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('12')!= -1){%>
+      <li <% if(title=='Contents' ){%>class="active"
+        <%}%>>
+        <a href="/notifications">
+          <i class="fa fa-bell"></i>
+          <span>Notifications</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('13')!= -1){%>
+      <li <% if(title=='Contents' ){%>class="active"
+        <%}%>>
+        <a href="/admin/illness_range">
+          <i class="fa fa-bell"></i>
+          <span>Treatment Range</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('15')!= -1){%>
+      <li <% if(title=='category' ){%>class="active"
+        <%}%>>
+        <a href="/get_category">
+          <i class="fa fa-list"></i>
+          <span>category</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('16')!= -1){%>
+      <li <% if(title=='item' ){%>class="active"
+        <%}%>>
+        <a href="/admin/item">
+          <i class="fa fa-list"></i>
+          <span>item list</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('17')!= -1){%>
+      <li>
+        <a href="/illneses">
+          <i class="fa fa-bell"></i>
+          <span>Treatment List</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('18')!= -1){%>
+      <li <% if(title=='Users' ){%>class="active"
+        <%}%>>
+        <a href="/set_payment">
+          <i class="fa fa-user"></i>
+          <span>Payment</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('19')!= -1){%>
+      <li>
+        <a href="/notifications/send">
+          <i class="fa fa-bell"></i>
+          <span>Send Notifications</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('20')!= -1){%>
+      <li>
+        <a href="/terms">
+          <i class="fa fa-bell"></i>
+          <span>Terms of service</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('21')!= -1){%>
+      <li>
+        <a href="/about_us">
+          <i class="fa fa-bell"></i>
+          <span>Privacy Policy</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('22')!= -1){%>
+      <li>
+        <a href="/faq">
+          <i class="fa fa-bell"></i>
+          <span> User faqs</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('23')!= -1){%>
+      <li>
+        <a href="/faq_hospital">
+          <i class="fa fa-bed"></i>
+          <span> Hospital faqs</span>
+        </a>
+      </li>
+      <%}%>
+      <% if(s_id.indexOf('24')!= -1){%>
+      <li>
+        <a href="/cookie">
+          <i class="fa fa-bell"></i>
+          <span>Cookie Policy</span>
+        </a>
+      </li>
+      <%}%>
+      
+
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

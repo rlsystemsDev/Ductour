@@ -1,0 +1,185 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+<style>
+  .tt {
+    word-break: break-word;
+  }
+</style>
+  <!-- Left side column. contains the logo and sidebar -->
+ 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+       Health Tips
+        <small> </small>
+      </h1>
+      
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <a href="/healthtips/create" class="btn btn-info pull-right" role="button">Add</a><br></br>
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+               <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th>Title</th>
+                  <th>Image</th>
+                  <th>Media</th>
+                  <th>vimeo</th>
+                  <th>Youtube</th>
+                  <th>Article</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                  
+                  
+                </tr>
+                </thead>
+                <tbody>
+               <% 
+                if(response && response.length>0){
+                for(var i in response){
+                  
+                %>
+                
+                <tr>
+                  <td><%= parseInt(i)+1%></td>
+                  <%  
+                 
+                  var string = response[i].title;
+                  if(string.length>30){%>
+                  <td class="tt"><%= response[i].title %></td>
+                  <% }else{
+                  %>
+                  <td class="tt"><%= response[i].title %></td>
+                  <%
+                  } %>
+                  <td>
+                      <%  if(response[i].image !=''){%>
+                        <img id="imgss_<%= response[i].id%>" class="myImg" style="width:50px; height: 50px;"
+                        src="/images/users/<%= response[i].image ? response[i].image : '' %>">
+                       
+                    <% } else{ %>  
+                      <img id="" class="myImg" style="width:50px; height: 50px;"
+                      src="/images/users/admin.png">
+                    <% } %>
+                  </td>
+                  <!-- <td><%= response[i].title ? response[i].title : ''%></td> -->
+                  <td>
+                  <% if(response[i].video !=''){%>
+                    <video width="50px" height="50px" controls>
+                        <source src="/images/users/<%= response[i].video ? response[i].video : '' %>" type="video/ogg">
+                      </video><%}%></td>
+                      <td>
+                  <% if(response[i].vimeo_link !=''){%>
+                    <iframe src="<%= response[i].vimeo_link %>"
+                      width="100" height="105" frameborder="0" allowfullscreen></iframe>
+                    <%}%></td>
+                     <td> 
+                       
+                   
+                  <% if(response[i].youtube_link !=''){%>
+                   <!--  <iframe width="100" height="50" src="<%= response[i].youtube_link %>">
+                    </iframe> -->
+                    <iframe src="<%= response[i].youtube_link %>"
+                    width="100" height="105" frameborder="0" allowfullscreen></iframe>             
+                  <%}%></td>  
+
+                
+                  <% var str = response[i].article;%>
+                  
+                  <%if(str.length>40){%>
+                  
+                      <td class="tt"><%- str.slice(0,40)+"..." %></td>
+                  <%}else{%>
+                        <td class="tt"><%- str %></td>
+                  <%}%>
+                  <% var stri = response[i].description;%>
+                  
+                  <%if(stri.length>40){%>
+                     <%stri = stri.substring(0,40)+"...";%>
+                      <td class="tt"><%- stri %></td>
+                  <%}else{%>
+                        <td class="tt"><%- stri %></td>
+                  <%}%>
+                 
+                
+                     
+                  
+                  <td><div>
+                      <a href="/healthtips/edit?id=<%= response[i].id%>" class="btn btn-primary a-btn-slide-text">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                       <span>Edit</span>            
+                     </a>
+                    <a href="/healthtips/view?id=<%= response[i].id%>" title="Views" class="btn btn-primary a-btn-slide-text">
+                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    <span>View</span>            
+                     </a>
+                    <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>" value="<%= response[i].status %>" <%= (response[i].status)?'checked':'' %> table="health_tips" >Delete</button>
+                  </div></td>
+                       
+    </tr>         
+                
+                <%  }
+                } %>
+                </tbody>
+                
+              </table>
+              <div>
+                  <p></p>
+                </div
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+
+  
+</div>
+
+<% include ../footer.ejs %> 
+<script>
+  function stripHtml(html){
+    // Create a new div element
+    var temporalDivElement = document.createElement("div");
+    // Set the HTML content with the providen
+    temporalDivElement.innerHTML = html;
+    // Retrieve the text property of the element (cross-browser support)
+    return temporalDivElement.textContent || temporalDivElement.innerText || "";
+}
+function strip_html_tags(str)
+{
+   if ((str===null) || (str===''))
+       return false;
+  else
+   str = str.toString();
+  return str.replace(/<[^>]*>/g, '');
+}
+  </script>
+

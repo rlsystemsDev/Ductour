@@ -1,0 +1,284 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %>
+<style>
+  .select2-selection__choice
+{
+  color: black !important;
+}
+    /* ul.dropdown-menu.inner.selectpicker {
+    max-height: 115px !important;
+    overflow-y: auto;
+    min-height: 82px;
+    position: relative;
+}
+.dropdown-menu .glyphicon.glyphicon-ok.check-mark {
+    display: none;
+}
+
+.row-fluid.ua   button.btn.dropdown-toggle.selectpicker.btn-default{
+    max-width: 100%;
+    word-break: break-word;
+    white-space: pre-line;
+    text-align: left;
+}
+.row-fluid.ua button.btn.dropdown-toggle.selectpicker.btn-default span.caret {
+    position: absolute;
+    right: 4px;
+    height: 3px;
+    width: 3px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+} */
+.select2-selection__choice
+{
+  color: black !important;
+}
+
+</style>
+  <div class="content-wrapper">
+    
+    <!-- Main content -->
+    <h4>DUC ID Details</h4>
+   
+    <section class="content">
+        
+          <!-- <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> 
+          </div> -->
+       
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            
+            <div class="box-header with-border">
+            
+              <h3 class="box-title"> <b></b></h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/policy/save">
+              <div class="box-body">
+                  
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Select Sponsors </label>
+                  <div class="row-fluid ua">
+                <select id="select_users" class="form-control" data-show-subtext="true" data-live-search="true" name ="sponsers_id" >
+                    <option  name ="sponsers" value="" required>Select option</option>
+                    <% 
+                    if(sponsers && sponsers!=''){
+                      for(let s in sponsers){%>
+                    <option  name ="sponsers" value="<%= sponsers[s].id%>" <% if(response.sponsorID && response.sponsorID!='' && response.sponsorID==sponsers[s].id){%>selected<%}%>> <%= sponsers[s].username%> - (<%= sponsers[s].email%>)</option>
+                    <%} }%>
+                  </select>
+                  <span style="color:red;display: none;" id="msgs">Sponsor is already taken</span>
+                </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Select HMO  </label>
+                  <div class="row-fluid ua">
+                <select id="select_hmo" class="form-control" data-show-subtext="true" data-live-search="true" name ="hmo_id" >
+                    <option  name ="sponsers" value="" required>Select option</option>
+                    <% 
+                    if(hmo && hmo!=''){
+                      for(let m in hmo){%>
+                    <option  name ="hmo" value="<%= hmo[m].id%>" <% if(response.hmo_id && response.hmo_id!='' && response.hmo_id==hmo[m].id){%>selected<%}%>><%= hmo[m].name%> - (<%= hmo[m].email%>)</option>
+                    <%} }%>
+                  </select>
+                 
+                </div>
+                </div>
+                <div class="form-group">
+                  <label>Select Hospitals</label>
+                    <div class="row-fluid ua">
+                        <input type="checkbox" id="checkbox" >Select All  <br>
+                        <select class="select2 form-control" data-show-subtext="true" data-live-search="true" name ="hospital"  multiple>
+                         <!--  <% console.log(typeof response.hospital_id); %> -->
+                          <% if(hospital && hospital!=''){
+                        for(let h in hospital){
+                          <!-- console.log( response.hospital_id.indexOf(String(hospital[h].id)), hospital[h].id, response.hospital_id ) -->
+                      %>
+                      <option  name ="hospital_id" value="<%= hospital[h].id%>"<% if(response.hospital_id && response.hospital_id!='' && ( typeof response.hospital_id == 'object' && response.hospital_id.indexOf(String(hospital[h].id)) != '-1' || typeof response.hospital_id == 'number' && response.hospital_id == hospital[h].id  ) ) {%>selected<%}%> ><%=hospital[h].name%> - (<%=hospital[h].email%>)</option>
+                      <%}
+                      }%>
+                         </select>
+                    </div>
+                  
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Select Restaurant  </label>
+                  <div class="row-fluid ua">
+                <select id="select_hmo" class="form-control" data-show-subtext="true" data-live-search="true" name ="restaurant" >
+                    <option  name ="restaurant" value="" required>Select option</option>
+                    <% 
+                    if(getresturent && getresturent!=''){
+                      for(let n in getresturent){%>
+                    <option  name ="restaurant" value="<%= getresturent[n].id%>" <% if(response.restro_id && response.restro_id!='' && response.restro_id==getresturent[n].id){%>selected<%}%>><%= getresturent[n].name%> - (<%= getresturent[n].email%>)</option>
+                    <%} }%>
+                  </select>
+                 
+                </div>
+                </div>
+            
+
+              <div class="form-group">
+                  <label for="exampleInputEmail1"> DUC ID Name</label>
+                  <input type="text" class="form-control" id="exampleInputfirstname"  name="policy_name"placeholder="Enter Policy  Name" value="<%= response.name ? response.name : '' %>" required>  
+                </div>   
+                <div class="form-group">
+                  <label for="exampleInputEmail1"> No of DUC ID Allocated to Sponsers:</label><br>
+                  <input type="text" class="form-control" id="exampleInputfirstname"  name="policy_no"placeholder="Enter No of Policy" value="<%= response.no_policy ? response.no_policy : '' %>" required>  
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1"> No of DUC Meal Allocated to Sponsers:</label><br>
+                    <input type="text" class="form-control" id="ducmeal"  name="no_ducmeal"placeholder="Enter No of Ducmeal alloted" value="<%= response.no_mealalloted ? response.no_mealalloted : '' %>" required>  
+                    </div>
+           
+                
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Expiry Date(dd-mm-yyyy)</label>
+                  <input type="date" max="9999-12-31" class="form-control" id="check_email" name="expiry_date" placeholder="Enter  Expiry Date" required value="<%= response.expiry_date ? response.expiry_date : '' %>" required>
+                </div>
+                
+
+                  <!-- <div class="form-group">
+                      <label>Select Illnesses</label>
+                        <div class="row-fluid ua">
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" name ="illname"  multiple>
+                               <% if(illness && illness!=''){
+                            for(let i in illness){
+                          %>
+                          <option  name ="illname" value="<%= illness[i].id%>" <% if(response && response.illness_id && response.illness_id!=''){ for(let j in response.illness_id){ if(response.illness_id[j] == illness[i].id){%>selected <%}}}%>><%= illness[i].name ? illness[i].name :''%></option>
+                          <%}
+                          }%>
+                             </select>
+                        </div>
+                  </div> -->
+                
+                <input type="hidden" value="<%= response.id ? response.id : '' %>" name="user_id">
+                <button type="button" class="btn btn-info " onclick="goBack()">Back</button>
+                <button type="submit" id="submit" class="btn btn-primary">Save</button>
+              </div>
+              <!-- /.box-body -->
+              
+            </form>
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">                                                                                                                                                                                                                 
+          <img id="output" style="width:300px;height:auto;max-height:500px;">
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<% include ../footer.ejs %> 
+<script>
+  function isNumber(evt) {
+      var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+      if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+        return false;
+
+      return true;
+    }  
+    // Without JQuery
+     /*  var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value; // Display the default slider value
+    
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    } */
+    
+    //getting username first 4 letter//
+    
+    </script>
+ <script>
+   $(document).ready(function(){
+    
+ $("#select_users").on("change",function(){
+   let sponser_id = $(this).val();
+   let msgs = $('#msgs').val('');
+    $.ajax({
+     type:"POST",
+     data:{id:sponser_id},
+     url:"/sponsers/get_name",
+     success:function(data){
+       if(data!=''){
+        msgs.show();
+        $('#submit').prop('disabled', true);
+       }else{
+        msgs.hide();
+        $('#submit').prop('disabled', false);
+       }
+      }
+     });
+    });
+    // $("#minvalu").on("keyup", function(){
+     /* let _minValu = $(this).val();
+     
+    //  let mmsgss = $("#msgss").val('');
+     $.ajax({
+     type:"POST",
+     data:{id:_minValu},
+     url:"/sponsers/check_minValu",
+     success:function(data){
+       
+      _minValu = parseInt(_minValu);
+      data.max = parseInt(data.max);
+      $("#minvalu").append('');
+      
+      if(_minValu>data.max){
+    
+        // mmsgss.hide();
+        // $('#submit').prop('disabled', false);
+      }else{
+        // <span style="color:red;display: none;" id="msgss">Policy must be greater then </span>
+        // mmsgss.show();
+        // $('#submit').prop('disabled', true);
+      }
+      }
+     }); */
+    // });
+  });
+  </script> 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+  
+	$( function() {
+    $('.select2').select2();
+    $("#checkbox").click(function(){
+    if($("#checkbox").is(':checked') )
+    {
+        $(".select2 > option").prop("selected","selected");
+        $(".select2").trigger("change");
+    }else{
+        $(".select2 > option").prop("selected",false);
+         $(".select2").trigger("change");
+     }
+});
+		$( "#slider-range" ).slider({
+			range: true,
+			min: 0,
+			max: 10000,
+			values: [1,10000],
+			slide: function( event, ui ) {
+				$( "#amount" ).val(  + ui.values[ 0 ] + "-" + ui.values[ 1 ] );
+			}
+		});
+		$( "#amount" ).val( + $( "#slider-range" ).slider( "values", 0 ) +
+			"" ( "#slider-range" ).slider( "values", 1 ) );
+  } );
+	</script>
+
+

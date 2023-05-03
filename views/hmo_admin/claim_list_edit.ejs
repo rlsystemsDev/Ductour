@@ -1,0 +1,138 @@
+<% include ./header.ejs %> 
+<% include ./navbar.ejs %> 
+<% include ./sidebar.ejs %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) --> 
+    <section class="content-header">
+      <h1>
+      Update Claim Status
+        <small> </small>
+      </h1>
+      
+    </section> <br>
+    
+    <!-- Main content -->
+    <section class="content">
+    <!-- <a href="/hmo/create" class="btn btn-info pull-right" role="button" >Add</a><br></br> -->
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-8">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form role="form" method="POST" enctype="multipart/form-data" action="/hmo/update_claim_status">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Amount</label>
+                <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Claimed Amount" required value="<%= response[0].amount ? response[0].amount : ''  %>">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Claim Varify Status</label>
+                 <select class="form-control id="exampleInputlastname" name="varify">
+                      <option value="Please Select">Please Select</option>
+                      <option value="0" <% if(response[0].varify_status ==0){%>selected<%}%>>Not Varified</option>
+                      <option value="1" <% if(response[0].varify_status ==1){%>selected<%}%>>Varified</option>
+                      
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Claim Redeem Status</label>
+                 <select class="form-control id="exampleInputlastname" name="redeem">
+                      <option value="Please Select">Please Select</option>
+                      <option value="0" <% if(response[0].redeem_status ==0){%>selected<%}%>>Not Redeemed</option>
+                      <option value="1" <% if(response[0].redeem_status ==1){%>selected<%}%>>Redeemed</option>
+                      
+                </select>
+              </div>
+            <!--  
+              <button type="" class="btn btn-info" onclick="goBack()">Back</button> -->
+              <input type="hidden" value="<%= response[0].id ? response[0].id : ''  %>" name="user_id">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            <!-- /.box-body --> 
+
+            
+          </form>
+        </div>
+
+
+      </div>
+      <div class="="col-md-4">
+        
+      </div>
+    </div>
+            <!-- /.box-body --> 
+
+            
+          </form>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  
+
+
+<% include ./../footer.ejs %> 
+<script type="text/javascript">
+  $(document.body).on('click','.dan',function(){
+  / console.log("here");return false; /
+  let _this=$(this);
+  let id= _this.attr('rel');
+  / console.log(id);return false; /
+   let status = (_this.attr('status')==1)?0:1;
+  //let status = (_this.attr('status')==1)?0:1;
+  _this.attr('status',status);
+  console.log(status);
+  //let table = _this.attr('table'); 
+  _this.val(status);
+  $.ajax({
+  type: "POST",
+  url: "/update_status",
+  data: { id: id, status: status },
+  success: function(data) {
+  console.log(status);
+  if (status ==0)
+  {
+  _this.text("Inactive");
+  _this.css('backgroundColor', '#F44336');
+  _this.css('border-color', '#F44336');
+  // $(this).attr( 'class','label label-success dan');
+  // _this.css("label-danger");
+  
+  }
+  else {
+  _this.text("Active");
+  _this.css('backgroundColor', '#4CAF50');
+  _this.css('border-color', '#4CAF50');
+  //	$(this).attr( 'class','label label-danger dan');
+  
+  //_this.css("label-success");
+  
+  //	_this.dan("label-success dan");
+  }
+  
+  },error(error){
+  console.error(error);
+  }
+  });
+  });
+  </script>
+

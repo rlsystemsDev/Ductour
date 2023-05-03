@@ -1,0 +1,158 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <!-- Content Wrapper. Contains page content -->
+  <style>
+    #addpolicy {
+      margin-left: 25px;
+      margin-top: 20px;
+    }
+  </style>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+       Treatment Details
+        <small> </small>
+      </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <a href="/illneses/create" class="btn btn-info pull-right" role="button" id="addpolicy">Add Treatment </a><br></br>
+      <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong>
+        <%= msg %>
+      </div>
+      <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Sr No</th>
+                    <th style="max-width: 40px"></th> Treatment Name</th>
+                    <th>Status</th>
+                    <th style="max-width: 340px">Description</th>
+                    <!-- <th>Selected Items</th> -->
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+                  <tr>
+                    <td>
+                      <%= parseInt(i)+1%>
+                    </td>
+                    <td style="max-width: 140px">
+                      <%= response[i].name ? response[i].name : ''%>
+                    </td>
+                    <td><span rel="<%=response[i].id%>" class="label <%= (response[i].status == '0') ? 'label-danger dan' : 'label-success dan'%>" status="<%= response[i].status%>">  <%= (response[i].status == 0) ? 'Inactive' : 'Active'%></span></td>
+                    <td style="word-break: break-word; max-width: 340px;">
+                      <%= response[i].description? response[i].description:''%>
+                    </td>
+                    <!-- <td style="word-break: break-word; max-width: 340px;">
+                      <%= response[i].multipleItems%>
+                    </td> -->
+                    <td>
+                      <div>
+                        <a href="/illneses/edit?id=<%= response[i].id%>" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                          <span>Edit</span>
+                        </a>
+                        <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>"
+                          table="illnesses">Delete</button>
+                      </div>
+                    </td>
+
+
+                  </tr>
+
+                  <%  }
+                } %>
+                </tbody>
+
+              </table>
+              <div>
+                <p></p>
+              </div </div> <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+</div>
+
+<% include ../footer.ejs %>
+
+<script type="text/javascript">
+  $(document.body).on('click','.dan',function(){
+   /*  alert("hi i ma in "); */
+  let _this=$(this);
+  let id= _this.attr('rel');
+
+   let status = (_this.attr('status')==1)?0:1;
+  //let status = (_this.attr('status')==1)?0:1;
+  _this.attr('status',status);
+  //let table = _this.attr('table'); 
+  _this.val(status);
+  $.ajax({
+  type: "POST",
+  url: "/update_status",
+  data: { id: id, status: status },
+  success: function(data) {
+  console.log("status -----",status);
+  (status == 0) ? _this.removeClass('label-success').addClass('label-danger').text('Inactive') : _this.removeClass('label-danger').addClass('label-success').text('active') ;
+  /* if (status ==0)
+  {
+   console.log("status");
+  _this.text("Inactive");
+  _this.css('background-color', '#F44336');
+  _this.css('border-color', '#F44336');
+  $(this).removeClass("label label-sucsess dan");
+  $(this).addClass("label label-danger dan");
+   $(this).attr( 'class','label label-success dan');
+  // _this.css("label-danger");
+  
+  }
+  else {
+    console.log("statusnot found");
+  _this.text("Active");
+  _this.css('background-color', '#4CAF50');
+  _this.css('border-color', '#4CAF50');
+  $(this).removeClass("label label-danger dan");
+  $(this).addClass("label label-success dan");
+  $(this).attr( 'class','label label-danger dan');
+  
+  //_this.css("label-success");
+  
+  //	_this.dan("label-success dan");
+  }  */
+  
+  },error(error){
+
+  console.error(error);
+  }
+  });
+  });
+  </script>

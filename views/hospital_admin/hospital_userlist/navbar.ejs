@@ -1,0 +1,59 @@
+<header class="main-header">
+  <style>
+  .navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
+    z-index: 5;
+    height: 160px;
+    width: 210px;
+    border: 3px solid;
+    border-color: transparent;
+    border-color: rgba(255,255,255,0.2);
+  </style>
+    <!-- Logo -->
+    <a href="/Hospitaldash/dashboard" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>DC</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>DUCTOUR</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          
+          
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%=session.name ? session.name: ''%>
+              <img src="/images/users/<%= session.image ? session.image: ''%>" class="user-image" alt="User Image">
+
+              
+
+              <span class="hidden-xs"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="user-header">
+
+                <img src="/images/users/<%= session.image ? session.image: ''%>" class="" alt="User Image">
+              </li>
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="/hospitaldash/get_profile" class="btn btn-default btn-flat">Profile Page</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/hospitaldash/logout" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+              
+            </ul>
+          </li>
+         
+        </ul>
+      </div>
+    </nav>
+  </header>

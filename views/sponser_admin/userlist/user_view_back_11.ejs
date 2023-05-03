@@ -1,0 +1,62 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+  <div class="content-wrapper">
+    
+            
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}%>
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            
+              <div class="box-body">
+                  <label for="exampleInputEmail1">Username</label>
+                  <p><%= response.u_username ? response.u_username : ''  %></p>
+                </div>
+                <% if(response.p_name && response.p_name!=''){%>
+                <div class="box-body">
+                  <label for="exampleInputEmail1"> Policy Name</label>
+                  <p><%= response.p_name ? response.p_name : ''  %></p>
+                  </div>
+                  <% }%>
+                  <div class="box-body">
+                  <label for="exampleInputEmail1">Illness Name</label>
+                  <p><%= response.illness_name ? response.illness_name : ''  %></p>
+                </div>
+                
+                  
+                
+              <!-- /.box-body -->
+
+              
+         
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">
+          <img id="output" style="width:400px;height:auto;max-height:600px;">
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<% include ../footer.ejs %> 
+
+

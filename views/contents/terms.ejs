@@ -1,0 +1,73 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+
+  <!-- Left side column. contains the logo and sidebar -->
+ 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Contents
+        <small> </small>
+      </h1>
+      
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+              
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="/update_terms" id="user_form">
+                  <fieldset class="content-group">
+                    <input type="hidden" value="<%=response[0].type %>" name="type">
+               
+                      <div class="col-lg-10 input-group">
+                        <textarea class="ckeditor" rows="7" cols="40" name="privacy"
+                        class="form-control"><%=response[0].content%></textarea>
+                      </div>
+                  
+                   
+        
+                  </fieldset>
+        
+                  <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Update <i class="icon-arrow-right14 position-right"></i></button>
+                  </div>
+                </form>
+              <div>
+                  <p></p>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+
+  
+</div>
+
+<% include ../footer.ejs %> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.11.3/ckeditor.js"></script>

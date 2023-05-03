@@ -1,0 +1,100 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+  <div class="content-wrapper">
+
+<%console.log(response);%>
+
+    <!-- Main content -->
+    
+   
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}%>
+        
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <button type="submit" class="btn btn-info pull-right " onclick="goBack()">Back</button>
+              <h3>View DUC ID</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            
+             
+             <!--  <div class="form-group">
+                  <label for="exampleInputEmail1">Sponsers</label>
+                  <p><%= response.username ? response.username : ''  %></p>
+                </div> -->
+                <div class="form-group">
+                  <label for="exampleInputEmail1">DUC ID Name</label>
+                  <p><%= response.name ? response.name : ''  %></p>
+                  </div>
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">HMO Name</label>
+                  <p><%= response.hmo_name ? response.hmo_name : ''  %></p>
+                  
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Alloted Policy</label>
+                  <p><%= response.no_policy ? response.no_policy : ''  %></p>
+                  
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Alloted Ducmeal</label>
+                  <p><%= response.no_mealalloted ? response.no_mealalloted : ''  %></p>
+                  
+                </div>
+              
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Expiry Date</label>
+                  <p><%= response.expiry_date ? response.expiry_date : ''  %></p>
+                  
+                </div>
+                <!-- <div class="form-group">
+                  <label for="exampleInputEmail1">illness name</label>
+                  <p><%= response.illness_id? response.illness_id : '' %></p>
+                  
+                </div> -->
+                
+                <!-- <div class="form-group">
+                  <label for="exampleInputEmail1">Interval(Months)</label>
+                  <p><%= response.interval ? response.interval : ''  %></p>
+                   
+                </div> -->
+                 
+                
+                
+                <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                
+                
+                
+              </div>
+              <!-- /.box-body -->
+
+              
+            </form>
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">
+          <img id="output" style="width:400px;height:auto;max-height:600px;">
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<% include ../footer.ejs %> 
+
+

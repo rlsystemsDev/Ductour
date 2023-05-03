@@ -1,0 +1,122 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <link rel="icon" href="/images/fevicon.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+       body {
+    padding-top: 80px;
+    background-image:url('/images/ductour.png');
+   
+    background-position:left top; 
+    background-repeat:no-repeat;
+    background-size: cover;
+      }
+      .login-panel.panel.panel-default .form-group input.form-control:focus {
+    box-shadow: none;
+}
+      .login-panel.panel.panel-default .form-group input.form-control {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    border-radius: 0;
+    padding: 0;
+    color: #fff;
+}
+ 
+.login-panel.panel.panel-default .form-group  input:-webkit-autofill,
+.login-panel.panel.panel-default .form-group  input:-webkit-autofill:hover,
+.login-panel.panel.panel-default .form-group input:-webkit-autofill:focus,
+.login-panel.panel.panel-default .form-group input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    
+}
+.login-panel.panel.panel-default .form-group input:-webkit-autofill {
+    -webkit-text-fill-color: #fff !important;
+}
+.login-panel.panel.panel-default form {
+    padding: 18px 0 0;
+}
+.logo_set {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding: 30px 0px 30px;
+}
+.logs .panel-default>.panel-heading {
+    background-color: #23acda;
+    color: #fff;
+    text-align: center;
+    border-bottom: 2px solid #fff;
+}
+.logs .panel {
+    background-color: rgba(0,0,0,0.6);
+    border: none;
+}
+.logs fieldset {
+    text-align: center;
+}
+.logs .btn-warning {
+    color: #fff;
+    background-color: #ed1f7b;
+    border: none;
+    padding: 6px 36px !important;
+}
+.logo_set img {
+    width: 120px;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+            
+        <div class="row">
+            <% if(msg!=''){
+                
+                %>
+                <div class="alert alert-success col-xs-6" id="msg" style="margin-left: 280px;">
+                  <h5> <%=msg%></h5>
+                </div>
+              <%}%>
+              <div class="logo_set">
+                            <img src="/images/logo_set.png " >
+                    </div>
+            <div class="col-md-4 col-md-offset-4 logs">
+
+                <div class="login-panel panel panel-default">
+                    
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Admin Login </strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="/admin/login">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="" required> 
+                                </div>
+                                <button type="submit" class="btn btn-warning btn-lg">Login</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    setTimeout(() => {
+        $("#msg").fadeOut('slow');
+       },3000);
+       });
+</script>

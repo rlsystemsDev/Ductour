@@ -1,0 +1,48 @@
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+
+      <div class="pull-left info">
+        <p></p>
+      </div>
+    </div>
+
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li <% if(title=='Dashboard' ){%>class="active"
+        <%}%>>
+        <a href="/hospitaldash/dashboard">
+          <i class="fa fa-dashboard"></i> <span>Hospital Dashboard</span>
+        </a>
+      </li>
+      
+      <li <% if(title=='get_hosp_userlist' ){%>class="active"
+        <%}%>>
+        <a href="/hospitaldash/get_hosp_userlist">
+          <i class="fa fa-universal-access"></i>
+          <span>Users List</span>
+        </a>
+      </li>
+      <li <% if(title=='viewpolicy' ){%>class="active"
+        <%}%>>
+        <a href="/viewPolicy">
+          <i class="fa fa-user"></i>
+          <span>Search DUC. ID Details</span>
+        </a>
+      </li>
+     
+      <li <% if(title=='hosp_faq' ){%>class="active"
+        <%}%>>
+        <a href="/hospitaldash/faq">
+          <i class="fa fa-universal-access"></i>
+          <span> Hospital faq</span>
+        </a>
+      </li>
+     
+     
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

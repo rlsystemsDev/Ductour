@@ -1,0 +1,226 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+
+  <!-- Left side column. contains the logo and sidebar -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Duc meal Lists
+        <small> </small>
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong>
+        <%= msg %>
+      </div>
+      <%}%>
+      <a href="/meal/add" class="btn btn-info pull-right" role="button">Add</a><br></br>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover csv_table">
+                <thead>
+                  <tr>
+                    <th>Sr.No</th>
+                    <th>Restaurants Name</th>
+                    <th>Restaurants Group Code</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Restaurants Address</th>
+                    <th></th>
+                    <th>Image</th>
+                    <th></th>
+                
+                    <th>Action</th>
+
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+
+                  <tr>
+                    <td>
+                      <%= parseInt(i)+1%>
+                    </td>
+                    <td>
+                      <%= response[i].name ? response[i].name : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].group_code ? response[i].group_code : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].email ? response[i].email : '' %>
+                    </td>
+                    <td><span rel="<%=response[i].id%>" class="label <%= (response[i].status == 0) ? 'label-danger dan' : 'label-success dan'%> " status="<%= response[i].status%>">  <%= (response[i].status == 0) ? 'Inactive' : 'Active'%></span></td>
+                    <td>
+                      <%= response[i].address ? response[i].address : '' %>
+                    </td>
+                    <td></td>
+                    <td>
+                        <%  if(response[i].image !=''){%>
+                          <img id="imgss_<%= response[i].id%>" class="myImg" style="width:50px; height: 50px;"
+                          src="/images/users/<%= response[i].image ? response[i].image : '' %>">
+                         
+                      <% } else{ %>  
+                        <img id="" class="myImg" style="width:50px; height: 50px;"
+                        src="/images/users/admin.png">
+                      <% } %>
+                    </td>
+                    <!-- <td><a data-toggle="modal" data-target="#policyModal" user_id="<%= response[i].id%>" class="btn btn-primary a-btn-slide-text policyusers">
+                      <span class="glyphicon glyphicon-doc" aria-hidden="true"></span>
+                      <span>View Policy </span>
+                    </a></td> -->
+                    <td><%= response[i].gender ? response[i].gender : '' %></td>
+                  <!-- <td><%= response[i].blood_group ? response[i].blood_group : '' %></td>
+                  <td><%= response[i].bvn ? response[i].bvn : '' %></td> -->
+                    <td>
+                      <div>
+                        <a href="/meal/edit?id=<%= response[i].id%>" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                          <span>Edit</span>
+                        </a>
+                        <a href="/meal/view?id=<%= response[i].id%>" title="Views" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                          <span>View</span>
+                        </a>
+                        <button class="btn btn-primary btn btn-danger delete delete_meal" type="submit" rel="<%= response[i].id %>"
+                          value="<%= response[i].status %>"<%= (response[i].status)? ' checked ' : '' %> table="ducmeal"
+                          >Delete</button>
+                          
+                      </div>
+                    </td>
+
+                  </tr>
+
+                  <%  }
+                } %>
+                </tbody>
+
+              </table>
+              <div>
+                <p></p>
+              </div>
+            </div>
+            <!-- /.box -->
+
+
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+</div>
+
+
+<% include ../footer.ejs %>
+
+
+<script type="text/javascript">
+  $(document.body).on('click','.dan',function(){
+
+  let _this=$(this);
+  let id= _this.attr('rel');
+   let status = (_this.attr('status')==1)?0:1;
+  //let status = (_this.attr('status')==1)?0:1;
+  _this.attr('status',status);
+
+  //let table = _this.attr('table'); 
+  _this.val(status);
+  $.ajax({
+  type: "POST",
+  url: "/update_statuss",
+  data: { id: id, status: status },
+  success: function(data) {
+  
+  if (status ==0)
+  {
+   console.log("status");
+  _this.text("Inactive");
+  _this.css('background-color', '#F44336');
+  _this.css('border-color', '#F44336');
+  $(this).removeClass("label label-sucsess dan");
+  $(this).addClass("label label-danger dan");
+   $(this).attr( 'class','label label-success dan');
+  // _this.css("label-danger");
+  
+  }
+  else {
+    console.log("statusnot found");
+  _this.text("Active");
+  _this.css('background-color', '#4CAF50');
+  _this.css('border-color', '#4CAF50');
+  $(this).removeClass("label label-danger dan");
+  $(this).addClass("label label-success dan");
+  $(this).attr( 'class','label label-danger dan');
+  
+  //_this.css("label-success");
+  
+  //  _this.dan("label-success dan");
+  } 
+  
+  },error(error){
+
+  console.error(error);
+  }
+  });
+  });
+  $(document.body).on('click','.delete_meal',function(){
+    let _this=$(this);
+    let _id= _this.attr('rel');
+    let table = _this.attr('table'); 
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this data!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((data) => {
+      if (data) {
+        $.ajax({
+            type: "POST",
+            url: "/meal/delete",
+            data: { id: _id, table:table },
+            success: function(data) {
+                _this.parents('tr').remove();
+                   swal("Your data has been deleted!", {
+                    icon: "success",
+                  });
+
+                  setTimeout(function () { location.reload(1); }, 1000);
+            },error(error){
+              console.error(error);
+            }
+          });
+      }
+    });
+
+
+     
+  });
+  </script>

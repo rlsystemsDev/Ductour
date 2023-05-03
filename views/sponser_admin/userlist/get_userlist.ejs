@@ -1,0 +1,145 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+ 
+  <!-- Left side column. contains the logo and sidebar -->
+ 
+  <!-- Content Wrapper. Contains page content -->
+  <style>
+  #addpolicy {
+    margin-left: 25px;
+    margin-top: 20px;
+}
+</style>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+       users Details
+        <small> </small>
+      </h1>
+      
+    </section>
+    <!-- <a href="/policy/create" class="btn btn-info" role="button" id="addpolicy">Add Policy </a><br></br> -->
+    
+    <!-- Main content -->
+    <section class="content">
+    
+    <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong> <%= msg %>
+      </div>
+    <%}%>
+      <div class="row">
+
+        <div class="col-xs-12">
+
+          <div class="box">
+
+            <!-- /.box-header -->
+
+            <div class="box-body">
+              <div class="col-xs-2">
+                <select class="form-control" id="select_illness">
+                      <option value="1">Illnesses</option>
+                      <option value="2">Policies</option>
+                      </select>
+                    
+                  </div>  
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  
+                  
+
+                </tr>
+                </thead>
+                <tbody>
+               
+                
+                <tr>
+                  
+                  
+                  
+                  
+                 
+                </tr>
+                
+                
+                
+                </tbody>
+                
+              </table>
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  
+</div>
+
+<% include ../footer.ejs %> 
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#select_illness").on("change",function(){
+    let illness_id = $(this).val();
+    let table_import = $(".response_data");
+    $.ajax({
+      type:"post",
+      data:{id:illness_id},
+      url:"/sponsers/get__details",
+      success:function(data){
+        
+       if(illness_id=='2'){
+        var htmlemp = '<thead><tr><th>Sr.No</th><th>Username </th><th>Policy Name</th><th>Policy Number</th><th>Action</th></tr></thead>';
+        if(data && data!=''){
+        for(let i=0;i<data.length;i++){
+            
+            htmlemp += '<tr><td>' +parseInt(i+1) +'</td>';
+            htmlemp += '<td>'+ data[i].u_username +'</td>';
+            htmlemp += '<td>'+ data[i].policy_name +'</td>';
+            htmlemp += '<td>'+ data[i].number +'</td>'  ;
+            htmlemp += '<td><a href="/sponsers/view_userlists_policy?id='+data[i].id+'" class="btn btn-primary a-btn-slide-text"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>View</span></a><button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="'+data[i].id+'" value="'+ data[i].status+'" table=" user_policies">Delete</button></td>';
+            htmlemp += '</tr>';   
+            
+      }
+    }
+       }else{
+        var htmlemp = '<thead><tr><th>Sr.No</th><th>Username </th><th>Illness Name</th><th>Action</th></tr></thead>';
+        if(data && data!=''){
+        for(let i=0;i<data.length;i++){
+
+            htmlemp += '<tr><td>' +parseInt(i+1) +'</td>';
+            htmlemp += '<td>'+ data[i].u_username +'</td>';
+            htmlemp += '<td>'+ data[i].illness_name +'</td>';
+            htmlemp += '<td><a href="/sponsers/view_userlists_illness?id='+data[i].id+'" class="btn btn-primary a-btn-slide-text"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span>View</span></a><button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="'+data[i].id+'" value="'+ data[i].status+'" table=" user_illnesses">Delete</button></td>';
+            htmlemp += '</tr>';   
+            
+      }
+    }
+       }
+        
+        
+    console.log(htmlemp);
+      $("#example1").html(htmlemp);
+        }
+      
+    });
+  });
+});
+  </script>

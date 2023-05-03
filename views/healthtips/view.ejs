@@ -1,0 +1,85 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+  <div class="content-wrapper">
+    
+      <style>
+          .tt p {
+            word-break: break-word;
+          }
+        </style>
+
+    <!-- Main content -->
+    
+   
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}%>
+        
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <button type="submit" class="btn btn-info pull-right " onclick="goBack()">Back</button>
+              <h3>View <%= response.title ? response.title.substring(0,10) : ''%> </h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/users/save">
+              <div class="box-body">
+                 
+                  <% if(response.video){ %>
+                    <div class="form-group">
+                      
+                      <div ><video width="50px" height="50px" controls>
+                          <source src="/images/users/<%= response.video ? response.video : '' %>" type="video/ogg">
+                        </video></div>
+                    </div>
+                    <% } %>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Title</label>
+                  <p><%= response.title ? response.title : ''  %></p>
+                </div>
+                <div class="form-group tt">
+                  <label for="exampleInputEmail1">Article</label>
+                  <p><%-response.article ? response.article : ''  %></p>
+                  </div>
+                 <div class="form-group tt">
+                  <label for="exampleInputEmail1">Description</label>
+                  <p><%= response.description ? response.description : ''  %></p>
+                  
+                </div>
+                
+                
+                <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                
+                
+                
+              </div>
+              <!-- /.box-body -->
+
+              
+            </form>
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">
+          <img id="output" style="width:400px;height:auto;max-height:600px;">
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<% include ../footer.ejs %> 
+
+

@@ -1,0 +1,144 @@
+<% include ../header.ejs %>
+<div class="wrapper">
+  <% include ../navbar.ejs %>
+  <% include ../sidebar.ejs %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <!-- Content Wrapper. Contains page content -->
+  <style>
+    #addpolicy {
+            margin-left: 25px;
+            margin-top: 20px;
+          }
+        </style>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        DUC ID  Details
+        <small> </small>
+      </h1>
+      <a href="/policy/create" class="btn btn-info pull-right" role="button" id="addpolicy">Add DUC ID</a>
+
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+
+      <% if(msg!=''){%>
+      <div class="alert alert-success col-xs-6" id="msg">
+        <strong>Success!</strong>
+        <%= msg %>
+      </div>
+      <%}%>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <!-- /.box-header -->
+           
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Sr.No</th>
+                    <!-- <th>Sponsers</th> -->
+                    <th>Sponsors Name</th>
+                    <th> DUC ID Name</th>
+                    <th>HMO Name</th>
+                    <th>Total No. of Duc IDs</th>
+                    <th>No of DUC ID left</th>
+                    <th>Expiry Date</th>
+                  <!--   <th>Illness Name</th> -->
+                    <!-- <th>Interval(Months)</th> -->
+                    <th>Action</th>
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <% 
+                if(response && response.length>0){
+                for(var i in response){
+                %>
+
+                  <tr>
+                    <td>
+                      <%= parseInt(i)+1%>
+                    </td>
+                    <!-- <td><%= response[i].username? response[i].username : '' %></td> -->
+                    <td>
+                      <%= response[i].s_username ? response[i].s_username : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].name ? response[i].name : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].hmo_name ? response[i].hmo_name : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].no_policy ? response[i].no_policy : '' %>
+                    </td>
+                    <td>
+                      <%= response[i].policy_left ? response[i].policy_left : 0 %>
+                    </td>
+                   
+                    <td>
+                      <%= response[i].expiry_date ? response[i].expiry_date : '' %>
+                    </td>
+                   <!--  <td>
+                      <%= response[i].illness_id? response[i].illness_id : '' %>
+                    </td> -->
+                    <!-- <td><%= response[i].interval ? response[i].interval : '' %></td> -->
+                    <td>
+                      <div>
+                        <a href="/policy/views?id=<%= response[i].id%>" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                          <span>View</span>
+                        </a>
+
+                        <a href="/policy/edit?id=<%= response[i].id%>" class="btn btn-primary a-btn-slide-text">
+                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                          <span>Edit</span>
+                        </a>
+
+                        <button class="btn btn-primary btn btn-danger delete delete_cat" type="submit" rel="<%= response[i].id %>"
+                          value="<%= response[i].status %>" <%=( response[i].status)? 'checked' : '' %>
+                          table="policies"
+                          >Delete
+                        </button>
+
+
+                      </div>
+                    </td>
+
+
+
+
+                  </tr>
+
+                  <%  }
+                } %>
+                </tbody>
+
+              </table>
+              <div>
+                <p></p>
+              </div </div> <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+</div>
+
+<% include ../footer.ejs %>

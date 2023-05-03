@@ -1,0 +1,164 @@
+<% include ../header.ejs %> 
+<div class="wrapper">
+<% include ../navbar.ejs %> 
+<% include ../sidebar.ejs %> 
+  <div class="content-wrapper">
+    
+
+    <!-- Main content -->
+    
+   
+    <section class="content">
+        <% if(msg!=''){%>
+          <div class="alert alert-error col-xs-6" id="msg">
+            <strong></strong> <%= msg %>
+          </div>
+        <%}%>
+        
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+           
+              <h3><%= response.name ? 'Edit '+response.name : 'Create New '  %></h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" enctype="multipart/form-data" action="/hmo/save">
+              <div class="box-body">
+                 
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" class="form-control" id="exampleInputfirstname"  name="username"placeholder="Enter Name" value="<%= response.name ? response.name : ''  %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Address</label>
+                  <input type="textarea" class="form-control" id="locations" name="address" placeholder="Enter address" required value="<%= response.address ? response.address : ''  %>">
+                  <!-- <input type="hidden" class="form-control" id="pac-lat" name="lat" placeholder=""
+                    required value="">
+                    <input type="hidden" class="form-control" id="pac-lang" name="long" placeholder=""
+                    required value=""> -->
+                </div>
+                     
+               <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" class="form-control" id="exampleInputfirstname"  name="email" placeholder="Enter Email" value="<%= response.email ? response.email : ''  %>" <% if(response.email){%>readonly <%}%>>
+                </div>
+                 <div class="form-group">
+                  <label for="exampleInputEmail1">Password</label>
+                  <input type="password" class="form-control" name="password" placeholder="city" required value="<%= response.password ? response.password : ''  %>"<% if(response.password){%>readonly <%}%>>
+                </div>
+                <input type="hidden" value="<%= response.id ? response.id : ''  %>" name="user_id">
+                <div class="form-group">
+                  
+                </div>
+                <button type="submit" class="btn btn-info" onclick="goBack()">Back</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+              <!-- /.box-body --> 
+
+              
+            </form>
+          </div>
+
+
+        </div>
+        <div class="="col-md-4">
+          
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <div class="control-sidebar-bg"></div>
+  
+</div>
+<% include ../footer.ejs %> 
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUdXAPh9pzLfcW4ITFNitZ5ytAIHPcb54&libraries=places&callback=initAutocomplete" async defer></script>
+
+<script>
+  console.log('worloing');
+  // This example displays an address form, using the autocomplete feature
+  // of the Google Places API to help users fill in the information.
+
+  // This example requires the Places library. Include the libraries=places
+  // parameter when you first load the API. For example:
+  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+  var placeSearch, autocomplete;
+  var componentForm = {
+     // route: 'long_name',
+      locality: 'long_name',
+      administrative_area_level_1: 'long_name',
+      // country: 'long_name',
+      // postal_code: 'short_name'
+  };
+
+  
+  function initAutocomplete() {
+      console.log("..................................hi ");
+      // Create the autocomplete object, restricting the search to geographical
+      // location types.
+      autocomplete = new google.maps.places.Autocomplete(
+              /** @type {!HTMLInputElement} */(document.getElementById('locations')),
+              {types: ['geocode']});
+
+      // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+      autocomplete.addListener('place_changed', fillInAddress);
+  }
+
+  function fillInAddress() {
+      // Get the place details from the autocomplete object.
+      var place = autocomplete.getPlace();
+      //console.log(place);
+      for (var component in componentForm) {
+         console.log(component);
+          document.getElementById(component).value = '';
+          document.getElementById(component).disabled = false;
+      }
+
+      // Get each component of the address from the place details
+      // and fill the corresponding field on the form.
+
+      console.log(place);
+      console.log(place.address_components);
+
+      for (var i = 0; i < place.address_components.length; i++) {
+          var addressType = place.address_components[i].types[0];
+          //console.log(addressType);
+          if (componentForm[addressType]) {
+              var val = place.address_components[i][componentForm[addressType]];
+              console.log(val);
+              document.getElementById(addressType).value = val;
+          }
+      }
+      $("#pac-lat").val(place.geometry.location.lat());
+      $("#pac-lang").val(place.geometry.location.lng());
+  }
+
+  // Bias the autocomplete object to the user's geographical location,
+  // as supplied by the browser's 'navigator.geolocation' object.
+  function geolocate() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+              lat = position.coords.latitude;
+              lng = position.coords.longitude;
+              var geolocation = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+              };
+              $("#pac-lat").val(lat);
+              $("#pac-lang").val(lng);
+              var circle = new google.maps.Circle({
+                  center: geolocation,
+                  radius: position.coords.accuracy
+              });
+              autocomplete.setBounds(circle.getBounds());
+          });
+      }
+  }
+</script>
